@@ -1,0 +1,43 @@
+{
+  "name": "microsoft-engage-2022",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server-install": "npm install",
+    "frontend-install": "cd frontend && npm install && cd ..",
+    "setup": "npm run frontend-install && npm run server-install",
+    "build": "cd frontend && npm run build",
+    "run-frontend": "cd frontend && npm start",
+    "run-server": "nodemon index.js",
+    "dev": "concurrently \"npm run run-frontend\" \"npm run run-server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BhuvanaChandraP/Microsoft-Engage-2022.git"
+  },
+  "author": "Bhuvana Chandra P",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "canvas": "^2.9.1",
+    "cloudinary": "^1.29.1",
+    "concurrently": "^7.1.0",
+    "connect-flash": "^0.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "express-session": "^1.17.2",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.3.2",
+    "multer": "^1.4.4",
+    "node-fetch": "^2.1.2",
+    "path": "^0.12.7"
+  },
+  "bugs": {
+    "url": "https://github.com/BhuvanaChandraP/Microsoft-Engage-2022/issues"
+  },
+  "homepage": "https://github.com/BhuvanaChandraP/Microsoft-Engage-2022#readme"
+}
