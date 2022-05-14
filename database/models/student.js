@@ -7,6 +7,7 @@ module.exports = mongoose.model(
 		rollNo: Number,
 		password: String,
         email:String,
+		mobileNo:Number,
 		image: String, 
 		
 	})

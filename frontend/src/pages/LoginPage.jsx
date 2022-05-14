@@ -91,7 +91,7 @@ function LoginPage() {
                     videoConstraints={videoConstraints}
                   />
                 ) : (
-                  <img src={image} />
+                  <img src={image} alt="user-img"/>
                 )}
               </div>
             </Center>
