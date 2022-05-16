@@ -1,32 +1,20 @@
-const loginRouter = require("express").Router();
-const fs = require("fs");
+const loginPasswordRouter = require("express").Router();
 const Student = require("../../database/models/student");
-const cloudinaryUpload = require("../../helpers/cloudinary");
-const IdentifyFace = require("../../helpers/faceIdentification");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-loginRouter.post("/", async (req, res, next) => {
+loginPasswordRouter.post("/", async (req, res) => {
   try {
-    const data = JSON.parse(req.body.name);
-    var base64Data = data.replace(/^data:image\/jpeg;base64,/, "");
+    const { rollNo, password } = req.body;
 
-    fs.writeFile(
-      "./public/uploads/output.png",
-      base64Data,
-      "base64",
-      function (err) {
-        if (err) console.log(err);
-      }
-    );
-
-    let result = await cloudinaryUpload("./public/uploads/output.png");
-
-    let personFound = await IdentifyFace(result.url);
-    console.log(personFound);
+    if (!rollNo || !password) {
+      return res.status(400).json({
+        message: "Fill all the fields!",
+      });
+    }
 
     let student = await Student.findOne({ rollNo: personFound.name });
-    if (student) {
+    if (await bcrypt.compare(password, student.password)) {
       const token = jwt.sign(
         {
           _id: student._id,
@@ -52,4 +40,4 @@ loginRouter.post("/", async (req, res, next) => {
   }
 });
 
-module.exports = loginRouter;
+module.exports = loginPasswordRouter;

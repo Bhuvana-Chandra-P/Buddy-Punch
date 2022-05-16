@@ -1,14 +1,19 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 module.exports = mongoose.model(
-	'Student',
-	new mongoose.Schema({
-		name: String, 
-		rollNo: Number,
-		password: String,
-        email:String,
-		mobileNo:Number,
-		image: String, 
-		
-	})
+  "Student",
+  new mongoose.Schema({
+    name: String,
+    rollNo: Number,
+    password: String,
+    email: String,
+    mobileNo: Number,
+    image: String,
+    courses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+      },
+    ],
+  })
 );

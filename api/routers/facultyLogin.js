@@ -1,12 +1,11 @@
-const loginRouter = require("express").Router();
+const facultyLoginRouter = require("express").Router();
 const fs = require("fs");
-const Student = require("../../database/models/student");
+const Faculty = require("../../database/models/faculty");
 const cloudinaryUpload = require("../../helpers/cloudinary");
 const IdentifyFace = require("../../helpers/faceIdentification");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
-loginRouter.post("/", async (req, res, next) => {
+facultyLoginRouter.post("/", async (req, res) => {
   try {
     const data = JSON.parse(req.body.name);
     var base64Data = data.replace(/^data:image\/jpeg;base64,/, "");
@@ -25,24 +24,24 @@ loginRouter.post("/", async (req, res, next) => {
     let personFound = await IdentifyFace(result.url);
     console.log(personFound);
 
-    let student = await Student.findOne({ rollNo: personFound.name });
-    if (student) {
+    let faculty = await Faculty.findOne({ idNo: personFound.name });
+    if (faculty) {
       const token = jwt.sign(
         {
-          _id: student._id,
-          rollNo: student.rollNo,
+          _id: faculty._id,
+          idNo: faculty.idNo,
         },
         process.env.TOKEN_SECRET,
         { expiresIn: "168h" } // 7d
       );
       console.log("token", token);
       return res.status(200).json({
-        message: "Student Loggedin successfully",
+        message: "faculty Loggedin successfully",
         token,
       });
     }
     return res.status(400).json({
-      message: "No student found",
+      message: "No faculty found",
     });
   } catch (error) {
     console.log(error.message);
@@ -52,4 +51,4 @@ loginRouter.post("/", async (req, res, next) => {
   }
 });
 
-module.exports = loginRouter;
+module.exports = facultyLoginRouter;
