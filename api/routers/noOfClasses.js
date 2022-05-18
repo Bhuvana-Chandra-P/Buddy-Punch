@@ -4,7 +4,8 @@ const Course = require("../../database/models/course");
 
 classesAttendedRouter.post("/", async (req, res) => {
   try {
-    const { courseId, studentId } = req.body;
+    const { courseId } = req.body;
+    let studentId = req.jwt_payload._id;
 
     if (!courseId || !studentId) {
       return res.status(400).json({
@@ -13,7 +14,7 @@ classesAttendedRouter.post("/", async (req, res) => {
     }
 
     let student = await Student.findById(studentId);
-    let course = await Course.findById(courseId).populate("class");
+    let course = await Course.findById(courseId).populate("classes");
     if (!student) {
       return res.status(400).json({
         message: "No student found",
@@ -24,9 +25,9 @@ classesAttendedRouter.post("/", async (req, res) => {
         message: "No course found",
       });
     }
-    let ctr;
-    for (let i = 0; i < course.class.length; i++) {
-      if (course.class[i].includes(studentId)) {
+    let ctr=0;
+    for (let i = 0; i < course.classes.length; i++) {
+      if (course.classes[i].present.includes(studentId)) {
         ctr++;
       }
       //let student = await

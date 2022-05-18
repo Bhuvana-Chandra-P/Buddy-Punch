@@ -13,13 +13,15 @@ const permissionListRouter = require("./routers/permissionList");
 const requestPermissionRouter = require("./routers/requestPermission");
 const studentListRouter = require("./routers/studentList");
 const searchStudentRouter = require("./routers/searchStudent");
+const getCourseDetailsById = require("./routers/getCourseById");
 
+api.use("/getCourseDetails",getCourseDetailsById);
 api.use("/searchStudent",searchStudentRouter);
 api.use("/studentList",studentListRouter);
 api.use("/requestPermission",verifyJWT,requestPermissionRouter);
 api.use("/permissionList",permissionListRouter);
 api.use("/permission",verifyJWT,permissionRouter);
-api.use("/noOfClasses",classesAttendedRouter);
+api.use("/noOfClassesAttended",verifyJWT,classesAttendedRouter);
 api.use("/facultyList",facultyListRouter);
 api.use("/createCourse",verifyJWT,createCourseRouter);
 api.use("/courseList",verifyJWT,courseListRouter);

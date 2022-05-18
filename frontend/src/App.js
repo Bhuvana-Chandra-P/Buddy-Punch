@@ -12,6 +12,8 @@ import AddStudent from './pages/AddStudent';
 import StudentDashboard from './pages/StudentDashboard';
 import Leave from './components/Leave';
 import Class from './components/Class'
+import Attendance from './components/TakeAttendance';
+import CourseDetails from './components/CourseDetailsStudent';
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +28,8 @@ function App() {
       <Route path="/student/dashboard" element={<StudentDashboard/>}></Route>
       <Route path="/leave/:courseId" element={<Leave/>}></Route>
       <Route path="/createClass/:courseId" element={<Class/>}></Route>
+      <Route path="/takeAttendance/:classId" element={<Attendance/>}></Route>
+      <Route path="/student/courseDetails/:courseId" element={<CourseDetails/>}></Route>
     </Routes>
   </BrowserRouter>
   );

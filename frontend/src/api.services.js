@@ -55,4 +55,18 @@ export const ApiService = {
   addClass: data => {
     return axios.post(API_URL + 'api/addClass/', data);
   },
+
+  takeAttendance: data => {
+    return axios.post(API_URL + 'api/attendance/', data);
+  },
+
+  getCourseDetails: id => {
+    return axios.get(API_URL + `api/getCourseDetails/${id}`);
+  },
+
+  noOfClassesAttended: (data, token) => {
+    return axios.post(API_URL + 'api/noOfClassesAttended/', data, {
+      headers: { auth_token: token },
+    });
+  },
 };

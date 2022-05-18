@@ -5,9 +5,10 @@ const Class = require("../../database/models/class");
 const cloudinaryUpload = require("../../helpers/cloudinary");
 const IdentifyFace = require("../../helpers/faceIdentification");
 
-attendanceRouter.post("/:classId", async (req, res, next) => {
+attendanceRouter.post("/", async (req, res) => {
   try {
-    const data = JSON.parse(req.body.name);
+    const data = JSON.parse(req.body.image);
+    let classId = req.body.classId;
     var base64Data = data.replace(/^data:image\/jpeg;base64,/, "");
 
     fs.writeFile(
@@ -24,8 +25,8 @@ attendanceRouter.post("/:classId", async (req, res, next) => {
     let personFound = await IdentifyFace(result.url);
     console.log(personFound);
 
-    let student = await Student.findOne({ rollNo: personFound.name });
-    let classes = await Class.findById(req.params.classId);
+    let student = await Student.findOne({ id: personFound.name });
+    let classes = await Class.findById(classId);
     let numberOfStudentsPresent;
     if (!classes) {
       return res.status(400).json({
@@ -34,12 +35,11 @@ attendanceRouter.post("/:classId", async (req, res, next) => {
     }
     if (student) {
       classes.present.push(student.id);
-      numberOfStudentsPresent = classes.numberOfStudentsPresent;
-      classes.numberOfStudentsPresent = numberOfStudentsPresent + 1;
+      //numberOfStudentsPresent = classes.numberOfStudentsPresent;
+      //classes.numberOfStudentsPresent = numberOfStudentsPresent + 1;
       await classes.save();
       return res.status(200).json({
         message: "attendance marked!",
-        token,
       });
     }
     return res.status(400).json({

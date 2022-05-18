@@ -1,18 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
-import { Flex, Text, Stack, Button, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Text, Stack, Button, useColorModeValue,} from '@chakra-ui/react';
 
 const CourseCard = ({ course }) => {
   const { name, code, _id } = course;
   console.log(_id);
   console.log(name, code);
+  
+  const navigate = useNavigate();
+  //const toast = useToast();
+  const detailsHandler = async () => {
+    navigate(`/student/courseDetails/${_id}`);
+  }
   return (
     <Flex
       minH={'10vh'}
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}
+      onClick = {detailsHandler}
     >
       <Text>Name : {name}</Text>
       <Text>Subject Code : {code}</Text>
