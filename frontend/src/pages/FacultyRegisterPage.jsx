@@ -20,11 +20,12 @@ const videoConstraints = {
   height: 200,
   facingMode: 'user',
 };
-export default function StudentRegister() {
+export default function FacultyRegister() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [name, setName] = useState();
-  const [rollNo, setRollNo] = useState();
+  const [idNo, setIdNo] = useState();
+  const [mobileNo, setMobileNo] = useState();
   const [image, setImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -44,11 +45,20 @@ export default function StudentRegister() {
       let data = {
         image: image,
         name: name,
+        mobileNo: mobileNo,
         email: email,
         password: password,
-        rollNo: rollNo,
+        idNo: idNo,
       };
-      const res = await ApiService.registerStudent(data);
+      const res = await ApiService.registerFaculty(data);
+      toast({
+        title: 'Faculty registered',
+        description: 'User with same id number already exists',
+        status: 'success',
+        position: 'bottom-right',
+        isClosable: true,
+        duration: '5000',
+      });
       console.log(res);
       if (res.status === 200) {
         setIsLoading(false);
@@ -62,7 +72,7 @@ export default function StudentRegister() {
           setIsLoading(false);
           toast({
             title: 'User already exists',
-            description: 'User with same roll number already exixts',
+            description: 'User with same id number already exists',
             status: 'warning',
             position: 'bottom-right',
             isClosable: true,
@@ -122,14 +132,14 @@ export default function StudentRegister() {
             onChange={e => setName(e.target.value)}
           />
         </FormControl>
-        <FormControl id="rollNo" isRequired>
+        <FormControl id="idNo" isRequired>
           <FormLabel>Roll Number</FormLabel>
           <Input
             placeholder="Roll Number"
             _placeholder={{ color: 'gray.500' }}
             type="number"
-            value={rollNo}
-            onChange={e => setRollNo(e.target.value)}
+            value={idNo}
+            onChange={e => setIdNo(e.target.value)}
           />
         </FormControl>
         <FormControl id="email" isRequired>
@@ -140,6 +150,16 @@ export default function StudentRegister() {
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
+          />
+        </FormControl>
+        <FormControl id="mobileNo" isRequired>
+          <FormLabel>Mobile Number</FormLabel>
+          <Input
+            placeholder="Mobile Number"
+            _placeholder={{ color: 'gray.500' }}
+            type="number"
+            value={mobileNo}
+            onChange={e => setMobileNo(e.target.value)}
           />
         </FormControl>
         <FormControl id="password" isRequired>

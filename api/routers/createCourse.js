@@ -4,9 +4,10 @@ const Course = require("../../database/models/course");
 
 createCourseRouter.post("/", async (req, res, next) => {
   try {
-    const { name, code, students } = req.body;
+    const { name, code } = req.body;
     let facultyId = req.jwt_payload._id;
-    if (!name || !code || !students || !facultyId) {
+    console.log(facultyId);
+    if (!name || !code || !facultyId) {
       return res.status(400).json({
         message: "Please fill all required details",
         token,
@@ -17,12 +18,13 @@ createCourseRouter.post("/", async (req, res, next) => {
 
     course.name = name;
     course.code = code;
-    course.students = students;
+    //course.students = students;
     course.faculty = facultyId;
 
     await course.save();
     return res.status(200).json({
       message: "Course created successfully",
+      id:course.id
     });
   } catch (error) {
     console.log(error.message);

@@ -5,18 +5,20 @@ const Permission = require("../../database/models/permission");
 
 requestPermissionRouter.post("/", async (req, res) => {
   try {
-    const { subject, reason, facultyId, courseId, classes } = req.body;
-    if (!subject || !reason || !facultyId || !courseId || !classes) {
+    const { subject, reason,  courseId, startDate,endDate } = req.body;
+    if (!subject || !reason  || !courseId || !startDate || !endDate) {
       return res.status(400).json({
         message: "Fill all the fields!",
       });
     }
+    let course = await Course.findById(courseId).select('faculty');
     let permission = new Permission();
     permission.subject = subject;
     permission.reason = reason;
-    permission.faculty = facultyId;
+    permission.faculty = course.faculty;
     permission.course = courseId;
-    permission.classes = classes;
+    permission.startDate = startDate;
+    permission.endDate = endDate;
     permission.student = req.jwt_payload._id;
 
     await permission.save();

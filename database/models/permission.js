@@ -5,6 +5,8 @@ module.exports = mongoose.model(
   new mongoose.Schema({
     subject: String,
     reason: String,
+    startDate:Date,
+    endDate:Date,
     faculty: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Faculty",

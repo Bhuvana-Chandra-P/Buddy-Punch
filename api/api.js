@@ -1,8 +1,5 @@
 const api = require("express").Router();
-
-const createCourseRouter = require("./routers/createCourse");
-const studentListRouter = require("./routers/studentList");
-const facultyListRouter = require("./routers/facultyList");
+const {verifyJWT} = require("../middlewares/jwt")
 const classListRouter = require("./routers/studentList");
 const addClassRouter = require("./routers/addClass");
 const addStudentRouter = require("./routers/addStudent");
@@ -15,21 +12,21 @@ const permissionRouter = require("./routers/permission");
 const permissionListRouter = require("./routers/permissionList");
 const requestPermissionRouter = require("./routers/requestPermission");
 const studentListRouter = require("./routers/studentList");
+const searchStudentRouter = require("./routers/searchStudent");
 
+api.use("/searchStudent",searchStudentRouter);
 api.use("/studentList",studentListRouter);
-api.use("/requestPermission",requestPermissionRouter);
+api.use("/requestPermission",verifyJWT,requestPermissionRouter);
 api.use("/permissionList",permissionListRouter);
-api.use("/permission",permissionRouter);
+api.use("/permission",verifyJWT,permissionRouter);
 api.use("/noOfClasses",classesAttendedRouter);
 api.use("/facultyList",facultyListRouter);
-api.use("/createCourse",createCourseRouter);
-api.use("/courseList",courseListRouter);
+api.use("/createCourse",verifyJWT,createCourseRouter);
+api.use("/courseList",verifyJWT,courseListRouter);
 api.use("/attendance",attendanceRouter);
 api.use("/addStudent",addStudentRouter);
 api.use("/addClass",addClassRouter);
 api.use("/classList", classListRouter);
-api.use("/facultyList", facultyListRouter);
-api.use("/studentList", studentListRouter);
-api.use("/login", createCourseRouter);
+
 
 module.exports = api;

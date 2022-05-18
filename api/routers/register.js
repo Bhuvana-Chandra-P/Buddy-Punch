@@ -38,7 +38,7 @@ registerRouter.post("/", async (req, res) => {
     await student.save();
     console.log(result.url);
 
-    let faceRecognition = await AddFace(rollNo, result.url);
+    let faceRecognition = await AddFace(rollNo, result.url,student.id);
     console.log(faceRecognition);
 
     return res.status(200).json({

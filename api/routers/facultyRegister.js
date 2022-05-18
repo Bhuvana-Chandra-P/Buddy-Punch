@@ -38,7 +38,7 @@ facultyRegisterRouter.post("/", async (req, res) => {
     await faculty.save();
     console.log(result.url);
 
-    let faceRecognition = await AddFace(idNo, result.url);
+    let faceRecognition = await AddFace(idNo, result.url,faculty.id);
     console.log(faceRecognition);
 
     return res.status(200).json({

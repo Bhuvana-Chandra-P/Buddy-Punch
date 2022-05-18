@@ -6,7 +6,7 @@ const options = {
   },
 };
 let personID;
-async function AddFace(rollNo, imgUrl) {
+async function AddFace(rollNo, imgUrl,ID) {
   let url = process.env.AZURE_URL + "/persongroups/1";
   console.log(url);
   await axios.get(url, options).then(
@@ -19,7 +19,7 @@ async function AddFace(rollNo, imgUrl) {
   );
 
   url = process.env.AZURE_URL + "/persongroups/1/persons";
-  await axios.post(url, { name: rollNo }, options).then(
+  await axios.post(url, { name: ID }, options).then(
     (response) => {
       console.log("res", response.data);
       personID = response.data.personId;

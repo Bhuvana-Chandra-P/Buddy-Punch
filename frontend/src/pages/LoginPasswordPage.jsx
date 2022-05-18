@@ -1,44 +1,37 @@
 import React, { useState } from 'react';
-import Webcam from 'react-webcam';
-import { useNavigate } from 'react-router-dom';
-import { ApiService } from '../api.services';
 import {
   Button,
   Flex,
   FormControl,
+  FormLabel,
+  Heading,
+  Input,
   Stack,
   useColorModeValue,
-  Center,
   useToast,
 } from '@chakra-ui/react';
-const videoConstraints = {
-  width: 220,
-  height: 200,
-  facingMode: 'user',
-};
+import { useNavigate } from 'react-router-dom';
+import { ApiService } from '../api.services';
 
-function LoginPage() {
-  const [image, setImage] = useState('');
+export default function LoginPassword() {
+  const [password, setPassword] = useState();
+  const [number, setNumber] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
-  const webcamRef = React.useRef(null);
 
-  let imageSrc;
   const loginHandler = async () => {
     setIsLoading(true);
     try {
-      imageSrc = webcamRef.current.getScreenshot();
-      setImage(imageSrc);
-      const image = JSON.stringify(imageSrc);
-      let data = { image: image };
-      const res = await ApiService.loginStudent(data);
+      let data = {
+        number: number,
+        password: password,
+      };
+      const res = await ApiService.loginPassword(data);
       console.log(res);
       if (res.status === 200) {
-        const Token = res.data.token;
-        localStorage.setItem('Token', Token);
         setIsLoading(false);
-        navigate('/register');
+        navigate('/');
         return;
       }
     } catch (err) {
@@ -47,8 +40,8 @@ function LoginPage() {
         if (err.response.status === 400) {
           setIsLoading(false);
           toast({
-            title: 'Invalid credentials',
-            description: 'Please enter valid credentials',
+            title: 'User already exists',
+            description: 'User with same roll number already exixts',
             status: 'warning',
             position: 'bottom-right',
             isClosable: true,
@@ -59,7 +52,6 @@ function LoginPage() {
       }
     }
   };
-
   return (
     <Flex
       minH={'100vh'}
@@ -77,27 +69,31 @@ function LoginPage() {
         p={6}
         my={12}
       >
-        <FormControl id="userName">
-          <Stack>
-            <Center>
-              <div className="webcam-img">
-                {image === '' ? (
-                  <Webcam
-                    audio={false}
-                    height={200}
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                    width={220}
-                    videoConstraints={videoConstraints}
-                  />
-                ) : (
-                  <img src={image} alt="user-img" />
-                )}
-              </div>
-            </Center>
-          </Stack>
+        <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
+          Login with password
+        </Heading>
+
+        <FormControl id="number" isRequired>
+          <FormLabel>Roll Number/Id Number</FormLabel>
+          <Input
+            placeholder="Roll Number/Id Number"
+            _placeholder={{ color: 'gray.500' }}
+            type="number"
+            value={number}
+            onChange={e => setNumber(e.target.value)}
+          />
         </FormControl>
 
+        <FormControl id="password" isRequired>
+          <FormLabel>Password</FormLabel>
+          <Input
+            placeholder="password"
+            _placeholder={{ color: 'gray.500' }}
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+        </FormControl>
         <Stack spacing={6} direction={['column', 'row']}>
           <Button
             bg={'blue.400'}
@@ -106,10 +102,8 @@ function LoginPage() {
             _hover={{
               bg: 'blue.500',
             }}
-            onClick={e => {
-              loginHandler();
-            }}
             isLoading={isLoading}
+            onClick={() => loginHandler()}
           >
             Login
           </Button>
@@ -118,5 +112,3 @@ function LoginPage() {
     </Flex>
   );
 }
-
-export default LoginPage;
