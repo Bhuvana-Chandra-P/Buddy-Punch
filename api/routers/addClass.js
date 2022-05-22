@@ -1,12 +1,13 @@
 const addClassRouter = require("express").Router();
 const Class = require("../../database/models/class");
 const Course = require("../../database/models/course");
-
+const { date, time } = require("../../helpers/dateAndTime");
+const Monitor = require("../../database/models/monitor");
+const StudentBehaviour = require("../../database/models/studentBehaviour")
 addClassRouter.post("/", async (req, res) => {
   try {
-    const { courseId, date } = req.body;
-
-    if (!courseId || !date) {
+    const { dateAndTime, courseId } = req.body;
+    if (!courseId || !dateAndTime) {
       return res.status(400).json({
         message: "Fill all the fields!",
       });
@@ -19,11 +20,22 @@ addClassRouter.post("/", async (req, res) => {
       });
     }
     cl.course = courseId;
-    cl.date = date;
+    cl.date = dateAndTime;
     course.classes.push(cl.id);
+    let monitor = new Monitor();
+    monitor.classes = cl.id;
+    cl.monitor = monitor.id;
+    for(let i=0;i<course.students.length;i++)
+    {
+      let studentBehaviour = new StudentBehaviour();
+      studentBehaviour.classes = cl.id;
+      studentBehaviour.student = course.students[i];
+      monitor.studentsBehaviour.push(studentBehaviour.id);
+      await studentBehaviour.save();
+    }
+    await monitor.save();
     await course.save();
     await cl.save();
-
     return res.status(200).json({
       message: "Class scheduled successfully",
     });

@@ -25,7 +25,7 @@ export default function StudentRegister() {
   const [password, setPassword] = useState();
   const [name, setName] = useState();
   const [rollNo, setRollNo] = useState();
-  const [image, setImage] = useState('');
+  const [image] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
@@ -33,13 +33,11 @@ export default function StudentRegister() {
   const webcamRef = React.useRef(null);
 
   let imageSrc;
-  //let capture;
 
   const registerHandler = async () => {
     setIsLoading(true);
     try {
       imageSrc = webcamRef.current.getScreenshot();
-      setImage(imageSrc);
       const image = JSON.stringify(imageSrc);
       let data = {
         image: image,
@@ -49,27 +47,34 @@ export default function StudentRegister() {
         rollNo: rollNo,
       };
       const res = await ApiService.registerStudent(data);
-      console.log(res);
+      //console.log(res);
       if (res.status === 200) {
         setIsLoading(false);
+        toast({
+          title: 'Success',
+          description: `${res.data.message}`,
+          status: 'success',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
         navigate('/login');
         return;
       }
     } catch (err) {
       console.log(err.response);
       if (err.response) {
-        if (err.response.status === 400) {
           setIsLoading(false);
           toast({
-            title: 'User already exists',
-            description: 'User with same roll number already exixts',
+            title: 'Error',
+            description: `${err.response.data.message}`,
             status: 'warning',
             position: 'bottom-right',
             isClosable: true,
             duration: '5000',
           });
           return;
-        }
+        
       }
     }
   };
@@ -91,7 +96,7 @@ export default function StudentRegister() {
         my={12}
       >
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          Register
+         Student SignUp
         </Heading>
         <FormControl id="userName">
           <Center>{/* <FormLabel>Image</FormLabel> */}</Center>

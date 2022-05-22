@@ -7,9 +7,14 @@ const bcrypt = require("bcrypt");
 
 registerRouter.post("/", async (req, res) => {
   try {
-    const { rollNo, password, email, name, mobileNo } = req.body;
+    const { rollNo, password, email, name } = req.body;
+    if (!rollNo || !password || !email || !name || !req.body.image) {
+      return res.status(404).json({
+        message: "Fill all required fields",
+      });
+    }
     if (await Student.findOne({ rollNo: rollNo }))
-      return res.status(400).json({
+      return res.status(404).json({
         message: "Account already exists",
       });
     let student = new Student();
@@ -27,19 +32,20 @@ registerRouter.post("/", async (req, res) => {
       }
     );
     let result = await cloudinaryUpload(`./public/uploads/${rollNo}.png`);
+    let faceRecognition = await AddFace(rollNo, result.url, student.id);
+    if (!faceRecognition) {
+      return res.status(404).json({
+        message: "No person found",
+      });
+    }
     const salt = await bcrypt.genSalt(10);
     student.password = await bcrypt.hash(password, salt);
     student.name = name;
     student.email = email;
     student.rollNo = rollNo;
-    student.mobileNo = mobileNo;
     student.image = result.url;
 
     await student.save();
-    console.log(result.url);
-
-    let faceRecognition = await AddFace(rollNo, result.url,student.id);
-    console.log(faceRecognition);
 
     return res.status(200).json({
       message: "Student successfully registered",

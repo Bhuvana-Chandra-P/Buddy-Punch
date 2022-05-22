@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Card from '../components/Card';
+import Card from '../components/StudentCourseCard';
 //import { useNavigate } from 'react-router-dom';
 import { ApiService } from '../api.services';
-// import {
-//   Button,
-//   Flex,
-//   FormControl,
-//   FormLabel,
-//   Heading,
-//   Input,
-//   Stack,
-//   useColorModeValue,
-//   useToast,
-//   Link
-// } from '@chakra-ui/react';
+import { Flex, useColorModeValue, Center, Text } from '@chakra-ui/react';
 function StudentDashboard() {
   const [courses, setCourses] = useState([]);
   const fetchCourse = async () => {
@@ -30,14 +19,27 @@ function StudentDashboard() {
 
   return (
     <>
-      {courses.length > 0 && (
-        <>
-          {courses.map(course => (
-            <>
-              <Card course={course}></Card>
-            </>
-          ))}
-        </>
+      <Flex
+        //minH={'100vh'}
+        // align={'center'}
+        // justify={'center'}
+        bg={useColorModeValue('gray.50', 'gray.800')}
+      >
+        {courses.length > 0 && (
+          <>
+            {courses.map(course => (
+              <>
+                <Card course={course}></Card>
+              </>
+            ))}
+          </>
+        )}
+      </Flex>
+
+      {courses.length === 0 && (
+        <Center>
+          <Text>No Course Found</Text>
+        </Center>
       )}
     </>
   );

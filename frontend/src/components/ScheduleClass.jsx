@@ -25,14 +25,14 @@ export default function AddClass() {
     setIsLoading(true);
     try {
       let data = {
-        date: date,
+        dateAndTime: date,
         courseId: courseId,
       };
       const res = await ApiService.addClass(data);
       console.log(res);
       if (res.status === 200) {
         setIsLoading(false);
-        navigate('/login');
+        navigate('/faculty/dashboard');
         return;
       }
     } catch (err) {
@@ -71,7 +71,7 @@ export default function AddClass() {
         my={12}
       >
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          Login with password
+          Schedule class
         </Heading>
 
         <FormControl id="date" isRequired>

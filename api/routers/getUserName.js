@@ -1,30 +1,27 @@
-const logoutRouter = require("express").Router();
+const getUserNameRouter = require("express").Router();
 const Student = require("../../database/models/student");
 const Faculty = require("../../database/models/faculty");
-logoutRouter.get("/", async (req, res) => {
+getUserNameRouter.get("/", async (req, res) => {
   try {
     let id = req.jwt_payload._id;
 
     let student = await Student.findById(id);
     if (student) {
-      localStorage.removeItem("Token");
-      localStorage.removeItem("Faculty");
       return res.status(200).json({
-        message: "Student Logged-out successfully",
-        token,
+        message: "success",
+        name:student.name
       });
     }
     let faculty = await Faculty.findById(id)
     if (faculty) {
-      localStorage.removeItem("Token");
-      localStorage.removeItem("Faculty");
+     
       return res.status(200).json({
-        message: "Faculty Logged-out successfully",
-        token,
+        message: "success",
+        name:faculty.name
       });
     }
     return res.status(400).json({
-      message: "No student found",
+      message: "No loggedin user found",
     });
   } catch (error) {
     console.log(error.message);
@@ -34,4 +31,4 @@ logoutRouter.get("/", async (req, res) => {
   }
 });
 
-module.exports = logoutRouter;
+module.exports = getUserNameRouter;

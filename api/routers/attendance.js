@@ -24,24 +24,26 @@ attendanceRouter.post("/", async (req, res) => {
 
     let personFound = await IdentifyFace(result.url);
     console.log(personFound);
+    if (personFound) {
+      let student = await Student.findOne({ id: personFound.name });
+      let classes = await Class.findById(classId);
+      let numberOfStudentsPresent;
+      if (!classes) {
+        return res.status(400).json({
+          message: "No class found",
+        });
+      }
+      if (student) {
+        classes.present.push(student.id);
+        //numberOfStudentsPresent = classes.numberOfStudentsPresent;
+        //classes.numberOfStudentsPresent = numberOfStudentsPresent + 1;
+        await classes.save();
+        return res.status(200).json({
+          message: "attendance marked!",
+        });
+      }
+    }
 
-    let student = await Student.findOne({ id: personFound.name });
-    let classes = await Class.findById(classId);
-    let numberOfStudentsPresent;
-    if (!classes) {
-      return res.status(400).json({
-        message: "No class found",
-      });
-    }
-    if (student) {
-      classes.present.push(student.id);
-      //numberOfStudentsPresent = classes.numberOfStudentsPresent;
-      //classes.numberOfStudentsPresent = numberOfStudentsPresent + 1;
-      await classes.save();
-      return res.status(200).json({
-        message: "attendance marked!",
-      });
-    }
     return res.status(400).json({
       message: "No student found",
     });

@@ -19,7 +19,7 @@ loginPasswordRouter.post("/", async (req, res) => {
     let faculty = await Faculty.findOne({idNo : number});
     console.log("student",student);
     console.log("faculty",faculty);
-    if (await bcrypt.compare(password, student.password)) {
+    if (student && await bcrypt.compare(password, student.password)) {
       const token = jwt.sign(
         {
           _id: student._id,
@@ -35,7 +35,7 @@ loginPasswordRouter.post("/", async (req, res) => {
         isFaculty:false
       });
     }
-    else if (await bcrypt.compare(password, faculty.password)) {
+    else if (faculty && await bcrypt.compare(password, faculty.password)) {
       const token = jwt.sign(
         {
           _id: faculty._id,

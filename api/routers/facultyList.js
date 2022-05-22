@@ -9,7 +9,7 @@ facultyListRouter.get("/", async (req, res) => {
         message: "No faculty found",
       });
     }
-    console.log(facultyList);
+    //console.log(facultyList);
     return res.status(200).json({
       message: "faculty list",
       facultyList: facultyList,

@@ -5,9 +5,8 @@ const Faculty = require("../../database/models/faculty");
 const cloudinaryUpload = require("../../helpers/cloudinary");
 const IdentifyFace = require("../../helpers/faceIdentification");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
-loginRouter.post("/", async (req, res, next) => {
+loginRouter.post("/", async (req, res) => {
   try {
     const data = JSON.parse(req.body.image);
     var base64Data = data.replace(/^data:image\/jpeg;base64,/, "");
@@ -24,44 +23,45 @@ loginRouter.post("/", async (req, res, next) => {
     let result = await cloudinaryUpload("./public/uploads/output.png");
 
     let personFound = await IdentifyFace(result.url);
-    console.log(personFound);
+    //console.log("person found",personFound);
+    if (personFound) {
+      let student = await Student.findById(personFound.name);
+      let faculty = await Faculty.findById(personFound.name);
+      if (student) {
+        const token = jwt.sign(
+          {
+            _id: student._id,
+            rollNo: student.rollNo,
+          },
+          process.env.TOKEN_SECRET,
+          { expiresIn: "168h" } // 7d
+        );
+        console.log("token", token);
+        return res.status(200).json({
+          message: "Student Loggedin successfully",
+          token,
+          isFaculty: false,
+        });
+      } else if (faculty) {
+        const token = jwt.sign(
+          {
+            _id: faculty._id,
+            idNo: faculty.idNo,
+          },
+          process.env.TOKEN_SECRET,
+          { expiresIn: "168h" } // 7d
+        );
+        console.log("token", token);
+        return res.status(200).json({
+          message: "faculty Loggedin successfully",
+          token,
+          isFaculty: true,
+        });
+      }
+    }
 
-    let student = await Student.findById(personFound.name);
-    let faculty = await Faculty.findById(personFound.name);
-    if (student) {
-      const token = jwt.sign(
-        {
-          _id: student._id,
-          rollNo: student.rollNo,
-        },
-        process.env.TOKEN_SECRET,
-        { expiresIn: "168h" } // 7d
-      );
-      console.log("token", token);
-      return res.status(200).json({
-        message: "Student Loggedin successfully",
-        token,
-        isFaculty:false,
-      });
-    }
-    else if (faculty) {
-      const token = jwt.sign(
-        {
-          _id: faculty._id,
-          idNo: faculty.idNo,
-        },
-        process.env.TOKEN_SECRET,
-        { expiresIn: "168h" } // 7d
-      );
-      console.log("token", token);
-      return res.status(200).json({
-        message: "faculty Loggedin successfully",
-        token,
-        isFaculty:true
-      });
-    }
-    return res.status(400).json({
-      message: "No student found",
+    return res.status(404).json({
+      message: "No student or faculty found",
     });
   } catch (error) {
     console.log(error.message);

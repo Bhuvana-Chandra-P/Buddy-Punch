@@ -2,10 +2,13 @@ const getCourseDetailsById = require("express").Router();
 const Class = require("../../database/models/class");
 const Course = require("../../database/models/course");
 const mongoose = require("mongoose");
-
+const {date,time} = require("../../helpers/dateAndTime");
+const Student = require("../../database/models/student");
+const Permission = require("../../database/models/permission")
 getCourseDetailsById.get("/:courseId", async (req, res) => {
   try {
     let courseId = req.params.courseId;
+    let id = req.jwt_payload._id;
     if (!mongoose.Types.ObjectId.isValid(courseId)) {
       return res.status(404).json({
         message: "Invalid ID",
@@ -15,15 +18,50 @@ getCourseDetailsById.get("/:courseId", async (req, res) => {
       .populate({ path: "classes" })
       .populate({ path: "students" })
       .populate({path :"faculty"});
-    //console.log(course);
+
+    let dateAndTime =[];
+   
+    for(let i=0;i<course.classes.length;i++)
+    {
+      let d = date(course.classes[i].date);
+      let t = time(course.classes[i].date);
+      let data = {
+        date:d,
+        time:t
+      }
+      dateAndTime.push(data);
+     
+     
+    }
     if (!course) {
       return res.status(400).json({
         message: "No class found",
       });
     }
+    let student = await Student.findById(id);
+    if(student)
+    {
+      let permissions = await Permission.find();
+      let per = [];
+      for(let i=0;i<permissions.length;i++)
+      {
+        if(permissions[i].student == student.id)
+        {
+          per.push(permissions[i]);
+        }
+      }
+      return res.status(200).json({
+        message: "class list",
+        course: course,
+        permissions:per,
+        dateAndTime:dateAndTime
+      });
+
+    }
     return res.status(200).json({
       message: "class list",
       course: course,
+      dateAndTime:dateAndTime
     });
   } catch (error) {
     console.log(error.message);

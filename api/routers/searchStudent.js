@@ -8,7 +8,7 @@ searchStudentRouter.post("/", async (req, res) => {
       name: {
         $regex: new RegExp(name, "i"),
       },
-    }).select("rollNo");
+    }).select("rollNo name");
     console.log(studentList);
     if (!studentList) {
       return res.status(400).json({

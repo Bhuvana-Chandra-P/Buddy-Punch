@@ -39,7 +39,7 @@ export default function Leave() {
       const res = await ApiService.permission(data, token);
       if (res.status === 200) {
         setIsLoading(false);
-        navigate('/login');
+        navigate('/student/dashboard');
         return;
       }
     } catch (err) {
@@ -78,7 +78,7 @@ export default function Leave() {
         my={12}
       >
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          Register
+          Leave
         </Heading>
 
         <FormControl id="subject" isRequired>

@@ -1,16 +1,17 @@
 const permissionRouter = require("express").Router();
 const Permission = require("../../database/models/permission");
-
+const mongoose = require('mongoose')
 permissionRouter.get("/accept/:permissionId", async (req, res) => {
   try {
     let permissionId = req.params.permissionId;
-    if (mongoose.Types.ObjectId.isValid(permissionId)) {
-      return res.status(400).json({
-        message: "Invalid ID",
-      });
-    }
+    //console.log(permissionId);
+    // if (mongoose.Types.ObjectId.isValid(permissionId)) {
+    //   return res.status(400).json({
+    //     message: "Invalid ID",
+    //   });
+    // }
     let permission = await Permission.findById(permissionId);
-
+    //console.log(permission);
     permission.status = "accepted";
 
     await permission.save();
@@ -26,14 +27,14 @@ permissionRouter.get("/accept/:permissionId", async (req, res) => {
   }
 });
 
-permissionRouter.get("/rejected/:permissionId", async (req, res) => {
+permissionRouter.get("/reject/:permissionId", async (req, res) => {
   try {
     let permissionId = req.params.permissionId;
-    if (mongoose.Types.ObjectId.isValid(permissionId)) {
-      return res.status(400).json({
-        message: "Invalid ID",
-      });
-    }
+    // if (mongoose.Types.ObjectId.isValid(permissionId)) {
+    //   return res.status(400).json({
+    //     message: "Invalid ID",
+    //   });
+    // }
     let permission = await Permission.findById(permissionId);
 
     permission.status = "rejected";

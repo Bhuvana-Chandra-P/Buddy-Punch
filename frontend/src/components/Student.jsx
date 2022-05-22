@@ -7,12 +7,13 @@ import {
   useColorModeValue,
   useToast,
   Text,
+  Center,
 } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+
 import { ApiService } from '../api.services';
 const Student = ({ student, courseId }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const toast = useToast();
   let res;
   let studentId = student._id;
@@ -29,7 +30,7 @@ const Student = ({ student, courseId }) => {
       console.log(res);
       if (res.status === 200) {
         setIsLoading(false);
-        navigate(`/addStudent/${res.data.id}`);
+        window.location.reload(false);
         return;
       }
     } catch (err) {
@@ -50,29 +51,46 @@ const Student = ({ student, courseId }) => {
       }
     }
   };
-  const { _id, rollNo } = student;
+  const { _id, rollNo, name } = student;
   console.log(_id, rollNo);
   return (
     <Flex
-      minH={'10vh'}
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}
     >
-      <Text>Roll Number : {rollNo}</Text>
-      <Stack spacing={6} direction={['column', 'row']}>
-        <Button
-          bg={'blue.400'}
-          color={'white'}
-          w="full"
-          _hover={{
-            bg: 'blue.500',
-          }}
-          isLoading={isLoading}
-          onClick={() => addStudentHandler()}
-        >
-          Add student
-        </Button>
+      <Stack
+        w={'full'}
+        maxW={'md'}
+        bg={useColorModeValue('white', 'gray.700')}
+        rounded={'xl'}
+        boxShadow={'lg'}
+        p={6}
+      >
+        <Stack direction={['column', 'row']} spacing={6}>
+          <Center w="full">
+            <Text>Roll Number : {rollNo}</Text>
+          </Center>
+          <Center w="full">
+            <Text>Name : {name}</Text>
+          </Center>
+        </Stack>
+
+        <Stack spacing={6} direction={['column', 'row']}>
+          <Button
+            // bg={'blue.400'}
+            // color={'white'}
+            colorScheme="whatsapp"
+            w="full"
+            isLoading={isLoading}
+            onClick={() => addStudentHandler()}
+            _hover={{
+              bg: 'blue.500',
+            }}
+          >
+            Add student
+          </Button>
+        </Stack>
       </Stack>
     </Flex>
   );

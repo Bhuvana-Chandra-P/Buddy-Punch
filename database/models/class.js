@@ -22,5 +22,11 @@ module.exports = mongoose.model(
       },
     ],
     numberOfStudentsPresent: Number,
+    monitor: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Monitor",
+      },
+    ],
   })
 );

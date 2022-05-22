@@ -30,25 +30,50 @@ export default function LoginPassword() {
       const res = await ApiService.loginPassword(data);
       console.log(res);
       if (res.status === 200) {
+        const Token = res.data.token;
+        localStorage.setItem('Token', Token);
+
         setIsLoading(false);
-        navigate('/');
+        if (res.data.isFaculty) {
+          toast({
+            title: 'Login successful',
+            description: 'user logedin successfully',
+            status: 'success',
+            position: 'bottom-right',
+            isClosable: true,
+            duration: '5000',
+          });
+          localStorage.setItem('Faculty', 'true');
+          navigate('/faculty/dashboard');
+          window.location.reload(false);
+        } else {
+          toast({
+            title: 'Login successful',
+            description: 'user logedin successfully',
+            status: 'success',
+            position: 'bottom-right',
+            isClosable: true,
+            duration: '5000',
+          });
+          localStorage.setItem('Faculty', 'false');
+          navigate('/student/dashboard');
+          window.location.reload(false);
+        }
         return;
       }
     } catch (err) {
       console.log(err.response);
       if (err.response) {
-        if (err.response.status === 400) {
-          setIsLoading(false);
-          toast({
-            title: 'User already exists',
-            description: 'User with same roll number already exixts',
-            status: 'warning',
-            position: 'bottom-right',
-            isClosable: true,
-            duration: '5000',
-          });
-          return;
-        }
+        setIsLoading(false);
+        toast({
+          title: 'Login not successful',
+          description: 'No person found',
+          status: 'warning',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
+        return;
       }
     }
   };

@@ -4,20 +4,20 @@ const mongoose = require('mongoose');
 courseListRouter.get("/student/", async (req, res) => {
   try {
     let studentId = req.jwt_payload._id;
-    console.log(studentId);
+    //console.log(studentId);
     if (!mongoose.Types.ObjectId.isValid(studentId)) {
       return res.status(404).json({
         message: "Invalid ID",
       });
     }
     let courseList = await Course.find({ students: { $in: studentId } });
-    console.log(courseList);
+    //console.log(courseList);
     if (!courseList) {
       return res.status(400).json({
         message: "No class found",
       });
     }
-    console.log(courseList);
+    //console.log(courseList);
     return res.status(200).json({
       message: "course list",
       courseList: courseList,
@@ -39,13 +39,13 @@ courseListRouter.get("/faculty/", async (req, res) => {
       });
     }
     let courseList = await Course.find({ faculty: facultyId });
-    console.log(courseList);
+    //console.log(courseList);
     if (!courseList) {
       return res.status(400).json({
         message: "No class found",
       });
     }
-    console.log(courseList);
+    //console.log(courseList);
     return res.status(200).json({
       message: "class list",
       courseList: courseList,

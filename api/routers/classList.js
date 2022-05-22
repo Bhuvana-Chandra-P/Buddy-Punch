@@ -13,13 +13,12 @@ classListRouter.get("/:courseId", async (req, res) => {
     let classList = await Course.findById(courseId)
       .select("name")
       .populate({ path: "class" });
-    console.log(classList);
+
     if (!classList) {
       return res.status(400).json({
         message: "No class found",
       });
     }
-    console.log(classList);
     return res.status(200).json({
       message: "class list",
       classList: classList,

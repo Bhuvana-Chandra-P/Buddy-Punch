@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ApiService } from '../api.services';
 
 import {
   Text,
   useColorModeValue,
+  Stack,
+  Box,
+  Heading,
+  Center,
   Table,
   Thead,
   Tbody,
@@ -12,10 +16,6 @@ import {
   Th,
   Td,
   TableContainer,
-  Stack,
-  Heading,
-  Center,
-  Box,
 } from '@chakra-ui/react';
 
 const CourseDetails = () => {
@@ -25,31 +25,36 @@ const CourseDetails = () => {
   const [facultyName, setFacultyName] = useState();
   const [noOfStudents, setNoOfStudents] = useState();
   const [noOfClasses, setNoOfClasses] = useState();
-  const [noOfClassesPresent, setNoOfClassesPresent] = useState();
-  const [students, setStudents] = useState([]);
-  const [permissions, setPermissions] = useState([]);
+  //const [students, setStudents] = useState([]);
+  const [classes, setClasses] = useState([]);
+  const [dateAndTime, setdateAndTime] = useState([]);
+  const [attendance, setAttendance] = useState([]);
   const { courseId } = useParams();
-  console.log(courseId);
-
+  const navigate = useNavigate();
+  //console.log(courseId);
+  let ctr = 1;
   const fetchCourse = async () => {
     let token = localStorage.getItem('Token');
     let res = await ApiService.getCourseDetails(courseId, token);
+    let res1 = await ApiService.courseAttendance(courseId);
     console.log(res);
-    let data = {
-      courseId: courseId,
-    };
-
-    let result = await ApiService.noOfClassesAttended(data, token);
+    console.log(res1);
+    console.log(res1.data.result);
     setName(res.data.course.name);
     setCode(res.data.course.code);
     setFacultyName(res.data.course.faculty.name);
     setNoOfStudents(res.data.course.students.length);
     setNoOfClasses(res.data.course.classes.length);
-    setStudents(res.data.course.students);
-    setNoOfClassesPresent(result.data.noOfClassesPresent);
-    setPermissions(res.data.permissions);
-    console.log(result);
-    // setCourses(courses);
+    //setStudents(res.data.course.students);
+    setClasses(res.data.course.classes);
+    setdateAndTime(res.data.dateAndTime);
+    setAttendance(res1.data.result);
+
+    return;
+  };
+  const takeAttendanceHandler = async id => {
+    console.log(id);
+    navigate(`/classDetails/${courseId}/${id}`);
   };
 
   useEffect(() => {
@@ -86,30 +91,33 @@ const CourseDetails = () => {
               <Text>Number of Students : {noOfStudents}</Text>
               <Text>Number of Classes : {noOfClasses}</Text>
             </Stack>
-            <Text>Number of Classes Present : {noOfClassesPresent}</Text>
           </Stack>
 
           <Stack align={'center'} p={5} fontSize={'xl'}>
-            <Text>Students</Text>
+            <Text>Classes</Text>
           </Stack>
           <TableContainer>
             <Table size="sm">
               <Thead>
                 <Tr>
-                  <Th>Name</Th>
-
-                  <Th isNumeric>Roll No</Th>
+                  <Th>Class No</Th>
+                  <Th>Date</Th>
+                  <Th isNumeric>Time</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {students.length > 0 && (
+                {dateAndTime.length > 0 && (
                   <>
-                    {students.map(student => (
+                    {dateAndTime.map((dAndT, index) => (
                       <>
-                        <Tr>
-                          <Td>{student.name}</Td>
-
-                          <Td isNumeric>{student.rollNo}</Td>
+                        <Tr
+                          onClick={() =>
+                            takeAttendanceHandler(classes[index]._id)
+                          }
+                        >
+                          <Td>{ctr++}</Td>
+                          <Td>{dAndT.date}</Td>
+                          <Td isNumeric>{dAndT.time}</Td>
                         </Tr>
                       </>
                     ))}
@@ -118,28 +126,27 @@ const CourseDetails = () => {
               </Tbody>
             </Table>
           </TableContainer>
-
           <Stack align={'center'} p={5} fontSize={'xl'}>
-            <Text>Permissions</Text>
+            <Text>Attendance</Text>
           </Stack>
           <TableContainer>
             <Table size="sm">
               <Thead>
                 <Tr>
-                  <Th>Subject</Th>
-
-                  <Th isNumeric>Status</Th>
+                  <Th>Name</Th>
+                  <Th>Roll No</Th>
+                  <Th isNumeric>No of classes Present</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {permissions.length > 0 && (
+                {attendance.length > 0 && (
                   <>
-                    {permissions.map(permission => (
+                    {attendance.map(at => (
                       <>
                         <Tr>
-                          <Td>{permission.subject}</Td>
-
-                          <Td isNumeric>{permission.status}</Td>
+                          <Td>{at.name}</Td>
+                          <Td>{at.rollNo}</Td>
+                          <Td isNumeric>{at.noOfClassesPresent}</Td>
                         </Tr>
                       </>
                     ))}

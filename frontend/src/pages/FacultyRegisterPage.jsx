@@ -26,7 +26,7 @@ export default function FacultyRegister() {
   const [name, setName] = useState();
   const [idNo, setIdNo] = useState();
   const [mobileNo, setMobileNo] = useState();
-  const [image, setImage] = useState('');
+  const [image] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
@@ -34,13 +34,11 @@ export default function FacultyRegister() {
   const webcamRef = React.useRef(null);
 
   let imageSrc;
-  //let capture;
 
   const registerHandler = async () => {
     setIsLoading(true);
     try {
       imageSrc = webcamRef.current.getScreenshot();
-      setImage(imageSrc);
       const image = JSON.stringify(imageSrc);
       let data = {
         image: image,
@@ -51,35 +49,33 @@ export default function FacultyRegister() {
         idNo: idNo,
       };
       const res = await ApiService.registerFaculty(data);
-      toast({
-        title: 'Faculty registered',
-        description: 'User with same id number already exists',
-        status: 'success',
-        position: 'bottom-right',
-        isClosable: true,
-        duration: '5000',
-      });
       console.log(res);
       if (res.status === 200) {
         setIsLoading(false);
+        toast({
+          title: 'Success',
+          description: `${res.data.message}`,
+          status: 'success',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
         navigate('/login');
         return;
       }
     } catch (err) {
       console.log(err.response);
       if (err.response) {
-        if (err.response.status === 400) {
-          setIsLoading(false);
-          toast({
-            title: 'User already exists',
-            description: 'User with same id number already exists',
-            status: 'warning',
-            position: 'bottom-right',
-            isClosable: true,
-            duration: '5000',
-          });
-          return;
-        }
+        setIsLoading(false);
+        toast({
+          title: 'Error',
+          description: `${err.response.data.message}`,
+          status: 'error',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
+        return;
       }
     }
   };
@@ -101,7 +97,7 @@ export default function FacultyRegister() {
         my={12}
       >
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          Register
+          Faculty SignUp
         </Heading>
         <FormControl id="userName">
           <Center>{/* <FormLabel>Image</FormLabel> */}</Center>
@@ -133,7 +129,7 @@ export default function FacultyRegister() {
           />
         </FormControl>
         <FormControl id="idNo" isRequired>
-          <FormLabel>Roll Number</FormLabel>
+          <FormLabel>ID Number</FormLabel>
           <Input
             placeholder="Roll Number"
             _placeholder={{ color: 'gray.500' }}

@@ -8,8 +8,13 @@ const bcrypt = require("bcrypt");
 facultyRegisterRouter.post("/", async (req, res) => {
   try {
     const { name, idNo, password, email, mobileNo } = req.body;
+    if (!idNo || !password || !email || !mobileNo || !name || !req.body.image) {
+      return res.status(404).json({
+        message: "Fill all required fields",
+      });
+    }
     if (await Faculty.findOne({ idNo: idNo }))
-      return res.status(400).json({
+      return res.status(404).json({
         message: "Account already exists",
       });
     let faculty = new Faculty();
@@ -27,6 +32,13 @@ facultyRegisterRouter.post("/", async (req, res) => {
       }
     );
     let result = await cloudinaryUpload(`./public/uploads/${idNo}.png`);
+    let faceRecognition = await AddFace(idNo, result.url,faculty.id);
+    console.log(faceRecognition);
+    if (!faceRecognition) {
+      return res.status(404).json({
+        message: "No person found",
+      });
+    }
     const salt = await bcrypt.genSalt(10);
     faculty.password = await bcrypt.hash(password, salt);
     faculty.name = name;
@@ -36,10 +48,6 @@ facultyRegisterRouter.post("/", async (req, res) => {
     faculty.image = result.url;
 
     await faculty.save();
-    console.log(result.url);
-
-    let faceRecognition = await AddFace(idNo, result.url,faculty.id);
-    console.log(faceRecognition);
 
     return res.status(200).json({
       message: "faculty successfully registered",

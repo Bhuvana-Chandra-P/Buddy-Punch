@@ -10,6 +10,7 @@ import {
   useColorModeValue,
   Center,
   useToast,
+  Text
 } from '@chakra-ui/react';
 const videoConstraints = {
   width: 220,
@@ -18,18 +19,23 @@ const videoConstraints = {
 };
 
 function LoginPage() {
-  const [image, setImage] = useState('');
+  const [image] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
   const webcamRef = React.useRef(null);
 
   let imageSrc;
+  const facultyRegisterHandler = async () => {
+    navigate('/faculty/register')
+  }
+  const studentRegisterHandler = async () => {
+    navigate('/student/register')
+  }
   const loginHandler = async () => {
     setIsLoading(true);
     try {
       imageSrc = webcamRef.current.getScreenshot();
-      setImage(imageSrc);
       const image = JSON.stringify(imageSrc);
       let data = { image: image };
       const res = await ApiService.loginStudent(data);
@@ -37,18 +43,46 @@ function LoginPage() {
       if (res.status === 200) {
         const Token = res.data.token;
         localStorage.setItem('Token', Token);
+        
         setIsLoading(false);
-        navigate('/register');
+        if(res.data.isFaculty)
+        {
+          toast({
+            title: 'Login successful',
+            description: 'user logedin successfully',
+            status: 'success',
+            position: 'bottom-right',
+            isClosable: true,
+            duration: '5000',
+          });
+          localStorage.setItem('Faculty',"true");
+          navigate('/faculty/dashboard')
+          window.location.reload(false);
+        }
+        else{
+          toast({
+            title: 'Login successful',
+            description: 'user logedin successfully',
+            status: 'success',
+            position: 'bottom-right',
+            isClosable: true,
+            duration: '5000',
+          });
+          localStorage.setItem('Faculty',"false");
+          navigate('/student/dashboard');
+          window.location.reload(false);
+        }
+        
         return;
       }
     } catch (err) {
       console.log(err.response);
       if (err.response) {
-        if (err.response.status === 400) {
+        if (err.response.status === 404) {
           setIsLoading(false);
           toast({
-            title: 'Invalid credentials',
-            description: 'Please enter valid credentials',
+            title: 'Login not successful',
+            description: 'No person found',
             status: 'warning',
             position: 'bottom-right',
             isClosable: true,
@@ -106,14 +140,21 @@ function LoginPage() {
             _hover={{
               bg: 'blue.500',
             }}
+            isLoading={isLoading}
             onClick={e => {
               loginHandler();
             }}
-            isLoading={isLoading}
+            
           >
             Login
           </Button>
         </Stack>
+        <Center>
+          <Text fontWeight={500}>Don't have account?</Text>
+          <Text onClick={facultyRegisterHandler}>Faculty SignUp :</Text>
+          <Text onClick={studentRegisterHandler}>: Student SignUp</Text>
+        </Center>
+        
       </Stack>
     </Flex>
   );

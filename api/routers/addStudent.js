@@ -5,34 +5,14 @@ const Course = require("../../database/models/course");
 addStudentRouter.post("/", async (req, res) => {
   try {
     const { courseId, studentId } = req.body;
-    console.log(courseId,studentId);
+    //console.log(courseId,studentId);
     if (!courseId || !studentId) {
       return res.status(400).json({
         message: "Fill all the fields!",
       });
     }
-    let student = await Student.updateOne(
-      { id:studentId },
-      {
-        $addToSet: {
-         courses:courseId
-        },
-      }
-    );
-    let course = await Course.updateOne(
-      { id:courseId },
-      {
-        $addToSet: {
-         students:studentId
-        },
-      }
-    );
-    course = await Course.findById(courseId).populate('students');
-    student = await Student.findById(studentId).populate('courses');
-    course.students.push(studentId);
-    await course.save();
-    //console.log("student",student);
-    //console.log("course",course);
+    let student = await Student.findById(studentId);
+    let course = await Course.findById(courseId);
     if (!student) {
       return res.status(400).json({
         message: "No student found",
@@ -43,6 +23,18 @@ addStudentRouter.post("/", async (req, res) => {
         message: "No course found",
       });
     }
+    if(!student.courses.includes(courseId))
+    {
+      student.courses.push(courseId);
+      await student.save();
+    }
+    if(!course.students.includes(studentId))
+    {
+      course.students.push(studentId);
+      await course.save();
+    }
+    
+   
     
     return res.status(200).json({
       message: "Student added to course",

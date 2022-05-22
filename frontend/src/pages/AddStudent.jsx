@@ -76,7 +76,7 @@ export default function AddStudent() {
         my={12}
       >
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          Create course
+          Add student
         </Heading>
 
         <FormControl id="name" isRequired>
@@ -114,7 +114,6 @@ export default function AddStudent() {
                   key={student._id}
                   courseId={courseId}
                 />
-                {/* <Button onClick = {removeHandler({student})}>remove</Button> */}
               </>
             ))}
           </>

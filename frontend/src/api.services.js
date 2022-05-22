@@ -60,12 +60,48 @@ export const ApiService = {
     return axios.post(API_URL + 'api/attendance/', data);
   },
 
-  getCourseDetails: id => {
-    return axios.get(API_URL + `api/getCourseDetails/${id}`);
+  getCourseDetails: (id,token) => {
+    return axios.get(API_URL + `api/getCourseDetails/${id}`,{
+      headers: { auth_token: token },
+    });
   },
 
   noOfClassesAttended: (data, token) => {
     return axios.post(API_URL + 'api/noOfClassesAttended/', data, {
+      headers: { auth_token: token },
+    });
+  },
+
+  permissionList: id => {
+    return axios.get(API_URL + `api/permissionList/${id}`);
+  },
+
+  acceptPermission: id => {
+    return axios.get(API_URL + `api/permission/accept/${id}`);
+  },
+
+  rejectPermission: id => {
+    return axios.get(API_URL + `api/permission/reject/${id}`);
+  },
+
+  courseAttendance: id => {
+    return axios.get(API_URL + `api/courseAttendanceReport/${id}`);
+  },
+
+  attendance: (data) => {
+    return axios.post(API_URL + `api/attendanceReport`,data);
+  },
+
+  monitor: data => {
+    return axios.post(API_URL + 'api/monitorClass/', data);
+  },
+
+  displayMonitorDetails: id => {
+    return axios.get(API_URL + `api/monitorClassDetails/${id}/`);
+  },
+
+  getUserName: (token) => {
+    return axios.get(API_URL + 'api/getUserName/',  {
       headers: { auth_token: token },
     });
   },
