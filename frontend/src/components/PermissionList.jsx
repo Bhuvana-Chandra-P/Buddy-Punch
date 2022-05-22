@@ -30,6 +30,7 @@ const PermissionList = () => {
 
   useEffect(() => {
     fetchCourse();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const permissionAcceptHandler = async id => {
     try {

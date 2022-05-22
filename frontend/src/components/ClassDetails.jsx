@@ -37,6 +37,7 @@ const CourseDetails = () => {
 
     //return;
   };
+ 
   const takeAttendanceHandler = () => {
     navigate(`/takeAttendance/${classId}`);
   };
@@ -51,6 +52,7 @@ const CourseDetails = () => {
 
   useEffect(() => {
     fetchCourse();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
