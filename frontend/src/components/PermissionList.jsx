@@ -10,6 +10,7 @@ import {
   Center,
   Box,
   Heading,
+  useToast
 } from '@chakra-ui/react';
 
 const PermissionList = () => {
@@ -19,18 +20,34 @@ const PermissionList = () => {
   const { courseId } = useParams();
   //const navigate = useNavigate();
   //console.log(courseId);
-  const fetchCourse = async () => {
-    let res = await ApiService.permissionList(courseId);
-    console.log(res);
-    setdateAndTime(res.data.dateAndTime);
-    setPermissions(res.data.permissions);
+  const toast = useToast();
+  const fetchPermissionList = async () => {
+    try {
+      let res = await ApiService.permissionList(courseId);
+      console.log(res);
+      setdateAndTime(res.data.dateAndTime);
+      setPermissions(res.data.permissions);
 
-    return;
+      return;
+    } catch (err) {
+      console.log(err.response);
+      if (err.response) {
+        toast({
+          title: 'Error',
+          description: `${err.response.data.message}`,
+          status: 'warning',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
+        return;
+      }
+    }
   };
 
   useEffect(() => {
-    fetchCourse();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchPermissionList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const permissionAcceptHandler = async id => {
     try {

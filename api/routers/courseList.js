@@ -14,7 +14,7 @@ courseListRouter.get("/student/", async (req, res) => {
     //console.log(courseList);
     if (!courseList) {
       return res.status(400).json({
-        message: "No class found",
+        message: "No course found",
       });
     }
     //console.log(courseList);
@@ -42,7 +42,7 @@ courseListRouter.get("/faculty/", async (req, res) => {
     //console.log(courseList);
     if (!courseList) {
       return res.status(400).json({
-        message: "No class found",
+        message: "No course found",
       });
     }
     //console.log(courseList);

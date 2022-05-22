@@ -35,7 +35,7 @@ getCourseDetailsById.get("/:courseId", async (req, res) => {
     }
     if (!course) {
       return res.status(400).json({
-        message: "No class found",
+        message: "No course found",
       });
     }
     let student = await Student.findById(id);
@@ -51,7 +51,7 @@ getCourseDetailsById.get("/:courseId", async (req, res) => {
         }
       }
       return res.status(200).json({
-        message: "class list",
+        message: "Class list",
         course: course,
         permissions:per,
         dateAndTime:dateAndTime
@@ -59,7 +59,7 @@ getCourseDetailsById.get("/:courseId", async (req, res) => {
 
     }
     return res.status(200).json({
-      message: "class list",
+      message: "Class list",
       course: course,
       dateAndTime:dateAndTime
     });

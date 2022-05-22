@@ -9,25 +9,39 @@ import {
   Heading,
   Center,
   Box,
+  useToast,
 } from '@chakra-ui/react';
 
 const MonitorDetails = () => {
   const [monitor, setMonitor] = useState([]);
-
   const { classId } = useParams();
+  const toast = useToast();
+  const fetchMonitorDetails = async () => {
+    try {
+      let res = await ApiService.displayMonitorDetails(classId);
+      console.log(res);
+      setMonitor(res.data.monitor);
 
-  const fetchCourse = async () => {
-    let res = await ApiService.displayMonitorDetails(classId);
-
-    console.log(res);
-    setMonitor(res.data.monitor);
-
-    return;
+      return;
+    } catch (err) {
+      console.log(err.response);
+      if (err.response) {
+        toast({
+          title: 'Error',
+          description: `${err.response.data.message}`,
+          status: 'warning',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
+        return;
+      }
+    }
   };
 
   useEffect(() => {
-    fetchCourse();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchMonitorDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

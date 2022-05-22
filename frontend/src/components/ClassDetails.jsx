@@ -16,6 +16,7 @@ import {
   Center,
   Box,
   Button,
+  useToast,
 } from '@chakra-ui/react';
 
 const CourseDetails = () => {
@@ -23,18 +24,36 @@ const CourseDetails = () => {
   const [absent, setAbsent] = useState([]);
   const { courseId, classId } = useParams();
   const navigate = useNavigate();
-  const fetchCourse = async () => {
-    let data = {
-      courseId: courseId,
-      classId: classId,
-    };
-    let res = await ApiService.attendance(data);
-    console.log(res);
-    console.log(res.data.result[0].present);
-    console.log(res.data.result[1].absent);
-    setPresent(res.data.result[0].present);
-    setAbsent(res.data.result[1].absent);
-
+  const toast = useToast();
+  const fetchClass = async () => {
+    try{
+      let data = {
+        courseId: courseId,
+        classId: classId,
+      };
+      let res = await ApiService.attendance(data);
+      console.log(res);
+      console.log(res.data.result[0].present);
+      console.log(res.data.result[1].absent);
+      setPresent(res.data.result[0].present);
+      setAbsent(res.data.result[1].absent);
+  
+    }catch(err){
+      console.log(err.response);
+      if (err.response) {
+          toast({
+            title: 'Error',
+            description: `${err.response.data.message}`,
+            status: 'warning',
+            position: 'bottom-right',
+            isClosable: true,
+            duration: '5000',
+          });
+          return;
+        
+      }
+    }
+    
     //return;
   };
  
@@ -51,7 +70,7 @@ const CourseDetails = () => {
   };
 
   useEffect(() => {
-    fetchCourse();
+    fetchClass();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

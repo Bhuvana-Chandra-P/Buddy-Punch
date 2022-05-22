@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import moment from 'moment';
 import {
   Button,
   Flex,
@@ -109,6 +109,7 @@ export default function Leave() {
             type="date"
             value={startDate}
             onChange={e => setStartDate(e.target.value)}
+            min={moment().format("YYYY-MM-DD")}
           />
         </FormControl>
         <FormControl id="endDate" isRequired>
@@ -119,6 +120,7 @@ export default function Leave() {
             type="date"
             value={endDate}
             onChange={e => setEndDate(e.target.value)}
+            min={moment().format("YYYY-MM-DD")}
           />
         </FormControl>
 

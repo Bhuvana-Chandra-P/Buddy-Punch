@@ -6,7 +6,12 @@ permissionListRouter.get("/:courseId", async (req, res) => {
   try {
     
     let permissions = await Permission.find({ course : req.params.courseId ,status :"submitted"}).populate('student').populate('course');
-    
+    if(!permissions)
+    {
+      return res.status(400).json({
+        message: "No permissions found",
+      });
+    }
     let dateAndTime =[];
     for(let i=0;i<permissions.length;i++)
     {

@@ -1,10 +1,14 @@
 const courseAttendanceReportRouter = require("express").Router();
 const Course = require("../../database/models/course");
-
+const mongoose = require("mongoose");
 courseAttendanceReportRouter.get("/:courseId", async (req, res) => {
   try {
     const  courseId  = req.params.courseId;
-
+    if (!mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(404).json({
+        message: "Invalid ID",
+      });
+    }
     let course = await Course.findById(courseId)
       .populate({ path: "students" })
       .populate({ path: "classes" });

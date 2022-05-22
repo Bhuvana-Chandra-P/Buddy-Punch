@@ -26,7 +26,7 @@ MonitorClassRouter.post("/", async (req, res) => {
     let results = await Monitor(result.url);
     let cl = await Class.findById(classId)
     //let monitor = await Monitoring(cl.monitor);
-    console.log(results);
+    //console.log(results);
 
 
     for(let i=0;i<results.faceWithAttributes.length;i++)

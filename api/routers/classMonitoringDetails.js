@@ -8,8 +8,20 @@ displayMonitoringDetails.get("/:classId", async (req, res) => {
     const classId = req.params.classId;
     //console.log(classId);
     let cl = await Class.findById(classId);
+    if(!cl)
+    {
+      return res.status(400).json({
+        message: "No class found",
+      });
+    }
     //console.log(cl);
     let monitor = await Monitoring.findById(cl.monitor)
+    if(!monitor)
+    {
+      return res.status(400).json({
+        message: "No monitoring files found",
+      });
+    }
     let result=[];
     let comment;
     for(let i=0;i<monitor.studentsBehaviour.length;i++)

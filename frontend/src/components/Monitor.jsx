@@ -32,27 +32,26 @@ function Monitor() {
       imageSrc = webcamRef.current.getScreenshot();
       const image = JSON.stringify(imageSrc);
       let data = { image: image, classId: classId };
-      const res = await ApiService.monitor(data);
-      console.log(res);
+      await ApiService.monitor(data);
+      //const res = await ApiService.monitor(data);
+      //console.log(res);
     } catch (err) {
       console.log(err.response);
       if (err.response) {
-        if (err.response.status === 400) {
-          toast({
-            title: 'Invalid credentials',
-            description: 'Please enter valid credentials',
-            status: 'warning',
-            position: 'bottom-right',
-            isClosable: true,
-            duration: '5000',
-          });
-          return;
-        }
+        toast({
+          title: 'Error',
+          description: `${err.response.data.message}`,
+          status: 'warning',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
+        return;
       }
     }
   };
 
-  const MINUTE_MS = 15000;
+  const MINUTE_MS = 20000;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -60,7 +59,7 @@ function Monitor() {
     }, MINUTE_MS);
 
     return () => clearInterval(interval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

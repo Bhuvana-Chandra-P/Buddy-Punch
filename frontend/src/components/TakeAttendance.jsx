@@ -42,18 +42,16 @@ function LoginPage() {
     } catch (err) {
       console.log(err.response);
       if (err.response) {
-        if (err.response.status === 400) {
-          setIsLoading(false);
           toast({
-            title: 'Invalid credentials',
-            description: 'Please enter valid credentials',
+            title: 'Error',
+            description: `${err.response.data.message}`,
             status: 'warning',
             position: 'bottom-right',
             isClosable: true,
             duration: '5000',
           });
           return;
-        }
+        
       }
     }
   };

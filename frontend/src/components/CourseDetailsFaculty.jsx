@@ -16,10 +16,10 @@ import {
   Th,
   Td,
   TableContainer,
+  useToast
 } from '@chakra-ui/react';
 
 const CourseDetails = () => {
-  //const toast = useToast();
   const [name, setName] = useState();
   const [code, setCode] = useState();
   const [facultyName, setFacultyName] = useState();
@@ -31,26 +31,44 @@ const CourseDetails = () => {
   const [attendance, setAttendance] = useState([]);
   const { courseId } = useParams();
   const navigate = useNavigate();
+  const toast = useToast();
   //console.log(courseId);
   let ctr = 1;
   const fetchCourse = async () => {
-    let token = localStorage.getItem('Token');
-    let res = await ApiService.getCourseDetails(courseId, token);
-    let res1 = await ApiService.courseAttendance(courseId);
-    console.log(res);
-    console.log(res1);
-    console.log(res1.data.result);
-    setName(res.data.course.name);
-    setCode(res.data.course.code);
-    setFacultyName(res.data.course.faculty.name);
-    setNoOfStudents(res.data.course.students.length);
-    setNoOfClasses(res.data.course.classes.length);
-    //setStudents(res.data.course.students);
-    setClasses(res.data.course.classes);
-    setdateAndTime(res.data.dateAndTime);
-    setAttendance(res1.data.result);
 
-    return;
+    try{
+      let token = localStorage.getItem('Token');
+      let res = await ApiService.getCourseDetails(courseId, token);
+      let res1 = await ApiService.courseAttendance(courseId);
+      console.log(res);
+      console.log(res1);
+      console.log(res1.data.result);
+      setName(res.data.course.name);
+      setCode(res.data.course.code);
+      setFacultyName(res.data.course.faculty.name);
+      setNoOfStudents(res.data.course.students.length);
+      setNoOfClasses(res.data.course.classes.length);
+      //setStudents(res.data.course.students);
+      setClasses(res.data.course.classes);
+      setdateAndTime(res.data.dateAndTime);
+      setAttendance(res1.data.result);
+  
+      return;
+    }catch(err){
+      console.log(err.response);
+      if (err.response) {
+          toast({
+            title: 'Error',
+            description: `${err.response.data.message}`,
+            status: 'warning',
+            position: 'bottom-right',
+            isClosable: true,
+            duration: '5000',
+          });
+          return;
+        
+      }
+    }
   };
   const takeAttendanceHandler = async id => {
     console.log(id);

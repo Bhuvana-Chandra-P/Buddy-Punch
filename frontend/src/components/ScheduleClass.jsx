@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment'
 import {
   Button,
   Flex,
@@ -38,18 +39,16 @@ export default function AddClass() {
     } catch (err) {
       console.log(err.response);
       if (err.response) {
-        if (err.response.status === 400) {
-          setIsLoading(false);
           toast({
-            title: 'User already exists',
-            description: 'User with same roll number already exixts',
+            title: 'Error',
+            description: `${err.response.data.message}`,
             status: 'warning',
             position: 'bottom-right',
             isClosable: true,
             duration: '5000',
           });
           return;
-        }
+        
       }
     }
   };
@@ -82,6 +81,7 @@ export default function AddClass() {
             type="datetime-local"
             value={date}
             onChange={e => setDate(e.target.value)}
+            min={moment().format("YYYY-MM-DD")}
           />
         </FormControl>
 
