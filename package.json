@@ -8,10 +8,12 @@
     "server-install": "npm install",
     "frontend-install": "cd frontend && npm install && cd ..",
     "setup": "npm run frontend-install && npm run server-install",
-    "build": "cd frontend && npm run build",
+    "frontend-build": "cd frontend && npm run build",
     "run-frontend": "cd frontend && npm start",
     "run-server": "nodemon index.js",
-    "dev": "concurrently \"npm run run-frontend\" \"npm run run-server\""
+    "dev": "concurrently \"npm run run-frontend\" \"npm run run-server\"",
+    "start":"node index.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "repository": {
     "type": "git",
