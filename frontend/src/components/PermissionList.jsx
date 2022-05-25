@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ApiService } from '../api.services';
-
+import permission from '../assests/permission.svg';
 import {
   Text,
   useColorModeValue,
@@ -10,7 +10,8 @@ import {
   Center,
   Box,
   Heading,
-  useToast
+  useToast,
+  Image,
 } from '@chakra-ui/react';
 
 const PermissionList = () => {
@@ -162,6 +163,9 @@ const PermissionList = () => {
             )}
           </Stack>
         </Box>
+      </Center>
+      <Center>
+        <Image w="480px" src={permission} />
       </Center>
     </>
   );

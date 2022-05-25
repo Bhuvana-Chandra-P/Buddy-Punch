@@ -22,7 +22,7 @@ const CourseCard = ({ course }) => {
   };
   return (
     <>
-      <Center py={12} m={5}>
+      <Center p = {4} >
         <Box
           role={'group'}
           p={6}
@@ -33,6 +33,7 @@ const CourseCard = ({ course }) => {
           rounded={'lg'}
           pos={'relative'}
           zIndex={1}
+          d="flex"
         >
           <Stack pt={3} align={'center'}>
             <Stack onClick={detailsHandler} align={'center'}>

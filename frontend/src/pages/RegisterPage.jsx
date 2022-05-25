@@ -12,7 +12,10 @@ import {
   useColorModeValue,
   Center,
   useToast,
+  InputGroup,
+  InputRightElement,
 } from '@chakra-ui/react';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import { ApiService } from '../api.services';
 const videoConstraints = {
@@ -27,6 +30,7 @@ export default function StudentRegister() {
   const [rollNo, setRollNo] = useState();
   const [image] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -37,6 +41,21 @@ export default function StudentRegister() {
   const registerHandler = async () => {
     setIsLoading(true);
     try {
+      // eslint-disable-next-line no-useless-escape
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      } else {
+        setIsLoading(false);
+        toast({
+          title: 'Error',
+          description: `Please enter a valid email address`,
+          status: 'warning',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
+        return;
+      }
+
       imageSrc = webcamRef.current.getScreenshot();
       const image = JSON.stringify(imageSrc);
       let data = {
@@ -64,17 +83,16 @@ export default function StudentRegister() {
     } catch (err) {
       console.log(err.response);
       if (err.response) {
-          setIsLoading(false);
-          toast({
-            title: 'Error',
-            description: `${err.response.data.message}`,
-            status: 'warning',
-            position: 'bottom-right',
-            isClosable: true,
-            duration: '5000',
-          });
-          return;
-        
+        setIsLoading(false);
+        toast({
+          title: 'Error',
+          description: `${err.response.data.message}`,
+          status: 'warning',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
+        return;
       }
     }
   };
@@ -96,7 +114,7 @@ export default function StudentRegister() {
         my={12}
       >
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-         Student SignUp
+          Student SignUp
         </Heading>
         <FormControl id="userName">
           <Center>{/* <FormLabel>Image</FormLabel> */}</Center>
@@ -147,7 +165,7 @@ export default function StudentRegister() {
             onChange={e => setEmail(e.target.value)}
           />
         </FormControl>
-        <FormControl id="password" isRequired>
+        {/* <FormControl id="password" isRequired>
           <FormLabel>Password</FormLabel>
           <Input
             placeholder="password"
@@ -156,6 +174,26 @@ export default function StudentRegister() {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
+        </FormControl> */}
+        <FormControl id="password" isRequired>
+          <FormLabel>Password</FormLabel>
+          <InputGroup>
+            <Input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="password"
+              _placeholder={{ color: 'gray.500' }}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
+            <InputRightElement h={'full'}>
+              <Button
+                variant={'ghost'}
+                onClick={() => setShowPassword(showPassword => !showPassword)}
+              >
+                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
         </FormControl>
         <Stack spacing={6} direction={['column', 'row']}>
           <Button

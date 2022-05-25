@@ -94,7 +94,7 @@ export default function Nav() {
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Box>Logo</Box>
+          <Box>Buddy Punch</Box>
 
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
@@ -116,12 +116,12 @@ export default function Nav() {
                 </MenuButton>
                 <MenuList alignItems={'center'}>
                   <br />
-                  <Center>
+                  {/* <Center>
                     <Avatar
                       size={'2xl'}
                       src={'https://avatars.dicebear.com/api/male/username.svg'}
                     />
-                  </Center>
+                  </Center> */}
                   <br />
                   <Center>
                     <p>{name}</p>

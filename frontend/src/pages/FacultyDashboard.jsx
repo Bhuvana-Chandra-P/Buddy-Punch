@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Card from '../components/FacultyCourseCard';
 //import { useNavigate } from 'react-router-dom';
 import { ApiService } from '../api.services';
+import dash from '../assests/dashboard.svg'
 import {
   Button,
   Flex,
@@ -14,7 +15,9 @@ import {
   chakra,
   Text,
   Center,
-  useToast
+  useToast,
+  SimpleGrid,
+  Image
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 function FacultyDashboard() {
@@ -103,16 +106,18 @@ function FacultyDashboard() {
         //minH={'100vh'}
         // align={'center'}
         // justify={'center'}
+        w="100%"
+        d="flex"
         bg={useColorModeValue('gray.50', 'gray.800')}
       >
         {courses.length > 0 && (
-          <>
+          <SimpleGrid columns={[1,2,3,4]}>
             {courses.map(course => (
-              <>
+              // <SimpleGrid columns={3} spacing={5}>
                 <Card course={course}></Card>
-              </>
+              // </SimpleGrid>
             ))}
-          </>
+          </SimpleGrid>
         )}
       </Flex>
 
@@ -121,6 +126,14 @@ function FacultyDashboard() {
           <Text>No Course Found</Text>
         </Center>
       )}
+      <Center>
+      <Image
+          
+          w='480px'
+          src={dash}
+        />
+      </Center>
+      
     </>
   );
 }

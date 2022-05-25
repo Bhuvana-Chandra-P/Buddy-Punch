@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import moment from 'moment'
+import moment from 'moment';
 import {
   Button,
   Flex,
@@ -25,6 +25,23 @@ export default function AddClass() {
   const addClassHandler = async () => {
     setIsLoading(true);
     try {
+      let deadlineDate = date;
+      if (deadlineDate !== '') {
+        let now = Date.now();
+        let deadlineFormat = new Date(deadlineDate);
+        if (deadlineFormat < now) {
+          setIsLoading(false);
+          toast({
+            title: 'Error',
+            description: `Please enter valid date and time`,
+            status: 'warning',
+            position: 'bottom-right',
+            isClosable: true,
+            duration: '5000',
+          });
+          return;
+        }
+      }
       let data = {
         dateAndTime: date,
         courseId: courseId,
@@ -38,20 +55,22 @@ export default function AddClass() {
       }
     } catch (err) {
       console.log(err.response);
+      setIsLoading(false);
       if (err.response) {
-          toast({
-            title: 'Error',
-            description: `${err.response.data.message}`,
-            status: 'warning',
-            position: 'bottom-right',
-            isClosable: true,
-            duration: '5000',
-          });
-          return;
-        
+        toast({
+          title: 'Error',
+          description: `${err.response.data.message}`,
+          status: 'warning',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
+        return;
       }
     }
   };
+
+ 
   return (
     <Flex
       minH={'100vh'}
@@ -81,7 +100,7 @@ export default function AddClass() {
             type="datetime-local"
             value={date}
             onChange={e => setDate(e.target.value)}
-            min={moment().format("YYYY-MM-DD")}
+            min={moment().format('YYYY-MM-DD HH:mm')}
           />
         </FormControl>
 
