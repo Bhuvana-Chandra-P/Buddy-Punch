@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Card from '../components/FacultyCourseCard';
 //import { useNavigate } from 'react-router-dom';
 import { ApiService } from '../api.services';
-import dash from '../assests/dashboard.svg'
+import dash from '../assests/dashboard.svg';
 import {
   Button,
   Flex,
@@ -17,7 +17,7 @@ import {
   Center,
   useToast,
   SimpleGrid,
-  Image
+  Image,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 function FacultyDashboard() {
@@ -25,27 +25,27 @@ function FacultyDashboard() {
   const navigate = useNavigate();
   const toast = useToast();
   const fetchCourse = async () => {
-    try{
+    try {
       const token = localStorage.getItem('Token');
       let res = await ApiService.facultyCourseList(token);
       console.log(res);
       setCourses(res.data.courseList);
-    }catch(err){
+    } catch (err) {
       console.log(err.response);
       if (err.response) {
-          toast({
-            title: 'Error',
-            description: `${err.response.data.message}`,
-            status: 'warning',
-            position: 'bottom-right',
-            isClosable: true,
-            duration: '5000',
-          });
-          return;
-        
+        toast({
+          title: 'Error',
+          description: `${err.response.data.message}`,
+          status: 'warning',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
+        if (err.status === 401 || err.status === 403) navigate('/login');
+        return;
       }
     }
-    
+
     // setCourses(courses);
   };
 
@@ -55,7 +55,7 @@ function FacultyDashboard() {
 
   useEffect(() => {
     fetchCourse();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -111,10 +111,10 @@ function FacultyDashboard() {
         bg={useColorModeValue('gray.50', 'gray.800')}
       >
         {courses.length > 0 && (
-          <SimpleGrid columns={[1,2,3,4]}>
+          <SimpleGrid columns={[1, 2, 3, 4]}>
             {courses.map(course => (
               // <SimpleGrid columns={3} spacing={5}>
-                <Card course={course}></Card>
+              <Card course={course}></Card>
               // </SimpleGrid>
             ))}
           </SimpleGrid>
@@ -127,13 +127,8 @@ function FacultyDashboard() {
         </Center>
       )}
       <Center>
-      <Image
-          
-          w='480px'
-          src={dash}
-        />
+        <Image w="480px" src={dash} />
       </Center>
-      
     </>
   );
 }

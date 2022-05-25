@@ -32,7 +32,8 @@ function Monitor() {
       imageSrc = webcamRef.current.getScreenshot();
       const image = JSON.stringify(imageSrc);
       let data = { image: image, classId: classId };
-      await ApiService.monitor(data);
+      let token = localStorage.getItem("Token");
+      await ApiService.monitor(data,token);
       //const res = await ApiService.monitor(data);
       //console.log(res);
     } catch (err) {

@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const {date,time} = require("../../helpers/dateAndTime");
 const Student = require("../../database/models/student");
 const Permission = require("../../database/models/permission")
+const Faculty = require("../../database/models/faculty")
 getCourseDetailsById.get("/:courseId", async (req, res) => {
   try {
     let courseId = req.params.courseId;
@@ -12,6 +13,13 @@ getCourseDetailsById.get("/:courseId", async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(courseId)) {
       return res.status(404).json({
         message: "Invalid ID",
+      });
+    }
+    let faculty = await Faculty.findById(id)
+    if(!faculty)
+    {
+      return res.status(403).json({
+        message: "Invalid token or token expired",
       });
     }
     let course = await Course.findById(courseId)

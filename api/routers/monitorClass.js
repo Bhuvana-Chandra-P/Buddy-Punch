@@ -5,9 +5,17 @@ const Monitor = require("../../helpers/monitor");
 const Class = require("../../database/models/class");
 const StudentBehaviour = require("../../database/models/studentBehaviour");
 const Monitoring = require("../../database/models/monitor");
-
+const Faculty = require("../../database/models/faculty")
 MonitorClassRouter.post("/", async (req, res) => {
   try {
+    let id = req.jwt_payload._id;
+    let faculty = await Faculty.findById(id)
+    if(!faculty)
+    {
+      return res.status(403).json({
+        message: "Invalid token or token expired",
+      });
+    }
     const data = JSON.parse(req.body.image);
     const classId = req.body.classId;
     var base64Data = data.replace(/^data:image\/jpeg;base64,/, "");

@@ -4,9 +4,17 @@ const Student = require("../../database/models/student");
 const Class = require("../../database/models/class");
 const cloudinaryUpload = require("../../helpers/cloudinary");
 const IdentifyFace = require("../../helpers/faceIdentification");
-
+const Faculty = require("../../database/models/faculty")
 attendanceRouter.post("/", async (req, res) => {
   try {
+    let id = req.jwt_payload._id;
+    let faculty = await Faculty.findById(id)
+    if(!faculty)
+    {
+      return res.status(403).json({
+        message: "Invalid token or token expired",
+      });
+    }
     const data = JSON.parse(req.body.image);
     let classId = req.body.classId;
     var base64Data = data.replace(/^data:image\/jpeg;base64,/, "");

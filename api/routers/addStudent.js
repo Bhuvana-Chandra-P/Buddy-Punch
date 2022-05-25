@@ -1,9 +1,17 @@
 const addStudentRouter = require("express").Router();
 const Student = require("../../database/models/student");
 const Course = require("../../database/models/course");
-
+const Faculty = require("../../database/models/faculty")
 addStudentRouter.post("/", async (req, res) => {
   try {
+    let id = req.jwt_payload._id;
+    let faculty = await Faculty.findById(id)
+    if(!faculty)
+    {
+      return res.status(403).json({
+        message: "Invalid token or token expired",
+      });
+    }
     const { courseId, studentId } = req.body;
     //console.log(courseId,studentId);
     if (!courseId || !studentId) {

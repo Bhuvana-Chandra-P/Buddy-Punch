@@ -47,6 +47,7 @@ export default function CreateCourse() {
             isClosable: true,
             duration: '5000',
           });
+          if (err.status === 401 || err.status === 403) navigate('/login');
           return;
         
       }

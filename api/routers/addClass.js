@@ -4,8 +4,17 @@ const Course = require("../../database/models/course");
 const { date, time } = require("../../helpers/dateAndTime");
 const Monitor = require("../../database/models/monitor");
 const StudentBehaviour = require("../../database/models/studentBehaviour")
+const Faculty = require("../../database/models/faculty")
 addClassRouter.post("/", async (req, res) => {
   try {
+    let id = req.jwt_payload._id;
+    let faculty = await Faculty.findById(id)
+    if(!faculty)
+    {
+      return res.status(403).json({
+        message: "Invalid token or token expired",
+      });
+    }
     const { dateAndTime, courseId } = req.body;
     if (!courseId || !dateAndTime) {
       return res.status(400).json({

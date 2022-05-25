@@ -22,7 +22,7 @@ const getUserNameRouter = require("./routers/getUserName");
 
 api.use("/getUserName",verifyJWT,getUserNameRouter);
 api.use("/monitorClassDetails",monitorClassDetails);
-api.use("/monitorClass",monitorClassRouter);
+api.use("/monitorClass",verifyJWT,monitorClassRouter);
 api.use("/courseAttendanceReport",courseAttendanceReportRouter)
 api.use("/attendanceReport",attendanceReportRouter)
 api.use("/getCourseDetails",verifyJWT,getCourseDetailsById);
@@ -35,9 +35,9 @@ api.use("/noOfClassesAttended",verifyJWT,classesAttendedRouter);
 api.use("/facultyList",facultyListRouter);
 api.use("/createCourse",verifyJWT,createCourseRouter);
 api.use("/courseList",verifyJWT,courseListRouter);
-api.use("/attendance",attendanceRouter);
-api.use("/addStudent",addStudentRouter);
-api.use("/addClass",addClassRouter);
+api.use("/attendance",verifyJWT,attendanceRouter);
+api.use("/addStudent",verifyJWT,addStudentRouter);
+api.use("/addClass",verifyJWT,addClassRouter);
 api.use("/classList", classListRouter);
 
 

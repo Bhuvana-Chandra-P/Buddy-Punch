@@ -32,7 +32,8 @@ function LoginPage() {
       //setImage(imageSrc);
       const image = JSON.stringify(imageSrc);
       let data = { image: image, classId: classId };
-      const res = await ApiService.takeAttendance(data);
+      let token = localStorage.getItem("Token");
+      const res = await ApiService.takeAttendance(data,token);
       console.log(res);
       if (res.status === 200) {
         setIsLoading(false);

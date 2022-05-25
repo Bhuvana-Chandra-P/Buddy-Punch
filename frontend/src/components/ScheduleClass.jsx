@@ -46,7 +46,8 @@ export default function AddClass() {
         dateAndTime: date,
         courseId: courseId,
       };
-      const res = await ApiService.addClass(data);
+      let token = localStorage.getItem("Token");
+      const res = await ApiService.addClass(data,token);
       console.log(res);
       if (res.status === 200) {
         setIsLoading(false);

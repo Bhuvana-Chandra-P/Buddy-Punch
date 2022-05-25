@@ -13,8 +13,9 @@ import {
 import { useParams } from 'react-router-dom';
 import { ApiService } from '../api.services';
 import Student from '../components/Student';
-
+import { useNavigate } from 'react-router-dom';
 export default function AddStudent() {
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [result, setResult] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +33,8 @@ export default function AddStudent() {
         name: name,
       };
       console.log(name);
-      res = await ApiService.searchStudent(data);
+      let token = localStorage.getItem("Token");
+      res = await ApiService.searchStudent(data,token);
       console.log(res);
       if (res.status === 200) {
         setResult(res.data.studentList);
@@ -50,6 +52,7 @@ export default function AddStudent() {
             isClosable: true,
             duration: '5000',
           });
+          if (err.status === 401 || err.status === 403) navigate('/login');
           return;
         
       }

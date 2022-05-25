@@ -42,8 +42,10 @@ export const ApiService = {
     });
   },
 
-  addStudent: data => {
-    return axios.post(API_URL + 'api/addStudent/', data);
+  addStudent: (data,token) => {
+    return axios.post(API_URL + 'api/addStudent/', data,{
+      headers: { auth_token: token },
+    });
   },
 
   permission: (data, token) => {
@@ -52,12 +54,16 @@ export const ApiService = {
     });
   },
 
-  addClass: data => {
-    return axios.post(API_URL + 'api/addClass/', data);
+  addClass: (data,token) => {
+    return axios.post(API_URL + 'api/addClass/', data,{
+      headers: { auth_token: token },
+    });
   },
 
-  takeAttendance: data => {
-    return axios.post(API_URL + 'api/attendance/', data);
+  takeAttendance: (data,token) => {
+    return axios.post(API_URL + 'api/attendance/', data,{
+      headers: { auth_token: token },
+    });
   },
 
   getCourseDetails: (id,token) => {
@@ -92,8 +98,10 @@ export const ApiService = {
     return axios.post(API_URL + `api/attendanceReport`,data);
   },
 
-  monitor: data => {
-    return axios.post(API_URL + 'api/monitorClass/', data);
+  monitor: (data,token) => {
+    return axios.post(API_URL + 'api/monitorClass/', data,{
+      headers: { auth_token: token },
+    });
   },
 
   displayMonitorDetails: id => {

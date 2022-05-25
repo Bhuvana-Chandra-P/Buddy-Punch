@@ -12,8 +12,10 @@ import {
   Image,
 } from '@chakra-ui/react';
 import dash from '../assests/dashboard.svg';
+import { useNavigate } from 'react-router-dom';
 function StudentDashboard() {
   const [courses, setCourses] = useState([]);
+  const navigate = useNavigate();
   const toast = useToast();
   const fetchCourse = async () => {
     try {
@@ -32,6 +34,7 @@ function StudentDashboard() {
           isClosable: true,
           duration: '5000',
         });
+        if (err.status === 401 || err.status === 403) navigate('/login');
         return;
       }
     }
