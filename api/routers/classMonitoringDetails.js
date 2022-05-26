@@ -30,7 +30,7 @@ displayMonitoringDetails.get("/:classId", async (req, res) => {
       console.log(student);
       if(student.roll > 5 || student.pitch > 5 || student.yaw > 5)
       {
-        comment = 'Head was not in correct position seems like he did not listen properly. ';
+        comment = 'Head was not in correct position seems like he/she did not listen properly. ';
       }
       if(student.happiness > 0.7 && student.sadness < 0.5 && student.neutral > 0.5)
       {

@@ -22,7 +22,7 @@ exports.time = function calculateTime(objectTime) {
     if(minutes >= 60)
     {
       hours += 6;
-      minutes = 60-minutes;
+      minutes = minutes-60;
     }
     else{
       hours += 5;

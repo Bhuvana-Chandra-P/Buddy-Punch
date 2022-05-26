@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ApiService } from '../api.services';
-
+import Navbar from './navbar';
 import {
   Text,
   useColorModeValue,
@@ -76,6 +76,7 @@ const CourseDetails = () => {
 
   return (
     <>
+      <Navbar></Navbar>
       <Center py={12}>
         <Box
           role={'group'}

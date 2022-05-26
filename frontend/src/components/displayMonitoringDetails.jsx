@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ApiService } from '../api.services';
-
+import Navbar from '../components/navbar';
 import {
   Text,
   useColorModeValue,
@@ -46,6 +46,7 @@ const MonitorDetails = () => {
 
   return (
     <>
+    <Navbar></Navbar>
       <Center py={12}>
         <Box
           role={'group'}

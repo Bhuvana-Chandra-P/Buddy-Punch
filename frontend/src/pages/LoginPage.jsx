@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 import { ApiService } from '../api.services';
+import Navbar from '../components/navbar';
 // import Image from "next/image";
 
 //import {unlock} from '../assests/undraw_unlock_re_a558.svg'
@@ -60,7 +61,6 @@ function LoginPage() {
           });
           localStorage.setItem('Faculty', 'true');
           navigate('/faculty/dashboard');
-          window.location.reload(false);
         } else {
           toast({
             title: 'Login successful',
@@ -72,7 +72,6 @@ function LoginPage() {
           });
           localStorage.setItem('Faculty', 'false');
           navigate('/student/dashboard');
-          window.location.reload(false);
         }
 
         return;
@@ -95,9 +94,13 @@ function LoginPage() {
       }
     }
   };
+  const loginPasswordHandler = async () => {
+    navigate('/login/password');
+  }
 
   return (
     <>
+      <Navbar></Navbar>
       <Flex
         minH={'100vh'}
         align={'center'}
@@ -109,7 +112,7 @@ function LoginPage() {
             <Stack
               spacing={4}
               w={'full'}
-              maxW={'md'}
+              maxW={'550px'}
               minW={'400px'}
               bg={useColorModeValue('white', 'gray.700')}
               rounded={'xl'}
@@ -158,9 +161,14 @@ function LoginPage() {
                 </Button>
               </Stack>
               <Center>
-                <Text fontWeight={500}>Don't have account?</Text>
-                <Text onClick={facultyRegisterHandler}>Faculty SignUp :</Text>
-                <Text onClick={studentRegisterHandler}>: Student SignUp</Text>
+                <Text fontWeight={500} >Don't have account?</Text>
+                <Button onClick={facultyRegisterHandler} m ={2}>Faculty SignUp </Button>
+                <Button onClick={studentRegisterHandler}> Student SignUp</Button>
+              </Center>
+              <Center>
+                <Text fontWeight={500} >Do you want to login with Password ? </Text>
+                <Button onClick={loginPasswordHandler} m ={2}>Login</Button>
+                
               </Center>
             
           </Stack>

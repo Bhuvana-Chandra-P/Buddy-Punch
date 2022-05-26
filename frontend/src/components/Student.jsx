@@ -26,7 +26,8 @@ const Student = ({ student, courseId }) => {
         courseId: courseId,
         studentId: studentId,
       };
-      res = await ApiService.addStudent(data);
+      let token = localStorage.getItem("Token");
+      res = await ApiService.addStudent(data,token);
       console.log(res);
       if (res.status === 200) {
         setIsLoading(false);

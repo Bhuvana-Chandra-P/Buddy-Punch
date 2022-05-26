@@ -20,6 +20,7 @@ import {
   Image,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/navbar';
 function FacultyDashboard() {
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function FacultyDashboard() {
   const fetchCourse = async () => {
     try {
       const token = localStorage.getItem('Token');
+      console.log(token);
       let res = await ApiService.facultyCourseList(token);
       console.log(res);
       setCourses(res.data.courseList);
@@ -42,6 +44,7 @@ function FacultyDashboard() {
           duration: '5000',
         });
         if (err.status === 401 || err.status === 403) navigate('/login');
+        else navigate('/faculty/dashboard');
         return;
       }
     }
@@ -60,6 +63,7 @@ function FacultyDashboard() {
 
   return (
     <>
+      <Navbar></Navbar>
       <Box maxW="7xl" mt={14} p={4}>
         <Grid
           templateColumns={{
@@ -86,8 +90,8 @@ function FacultyDashboard() {
           <GridItem>
             <Flex>
               <chakra.p>
-                Create courses, Add students, schedule classes, take attendance,
-                monitor class .
+                Create courses, Add students, Schedule classes, Take attendance,
+                Monitor class .
               </chakra.p>
             </Flex>
           </GridItem>
@@ -120,15 +124,14 @@ function FacultyDashboard() {
           </SimpleGrid>
         )}
       </Flex>
-
+      <Center>
+        <Image w="480px" src={dash} />
+      </Center>
       {courses.length === 0 && (
         <Center>
           <Text>No Course Found</Text>
         </Center>
       )}
-      <Center>
-        <Image w="480px" src={dash} />
-      </Center>
     </>
   );
 }

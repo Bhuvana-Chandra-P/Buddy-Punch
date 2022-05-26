@@ -32,8 +32,10 @@ export const ApiService = {
     });
   },
 
-  searchStudent: data => {
-    return axios.post(API_URL + 'api/searchStudent/', data);
+  searchStudent: (data,token) => {
+    return axios.post(API_URL + 'api/searchStudent/', data,{
+      headers: { auth_token: token },
+    });
   },
 
   CreateCourse: (data, token) => {

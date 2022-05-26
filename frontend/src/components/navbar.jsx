@@ -40,11 +40,12 @@ export default function Nav() {
   const navigate = useNavigate();
   const logoutHandler = async () => {
     localStorage.removeItem("Token");
+    localStorage.removeItem("Faculty");
     navigate('/login');
   }
-  const loginHandler = async () => {
-    navigate('/login');
-  }
+  // const loginHandler = async () => {
+  //   navigate('/login');
+  // }
   const loginPasswordHandler = async () => {
     navigate('/login/password');
   }
@@ -129,7 +130,7 @@ export default function Nav() {
                   <br />
                   <MenuDivider />
                   <MenuItem onClick={dashboardHandler}>Dashboard</MenuItem>
-                  <MenuItem onClick={loginHandler}>Login</MenuItem>
+                  {/* <MenuItem onClick={loginHandler}>Login</MenuItem> */}
                   <MenuItem onClick={loginPasswordHandler}>Login with Password</MenuItem>
                   <MenuItem onClick={logoutHandler}>Logout</MenuItem>
                 </MenuList>

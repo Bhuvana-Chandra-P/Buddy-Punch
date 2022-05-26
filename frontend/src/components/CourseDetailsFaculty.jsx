@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ApiService } from '../api.services';
-
+import Navbar from './navbar';
 import {
   Text,
   useColorModeValue,
@@ -82,6 +82,7 @@ const CourseDetails = () => {
 
   return (
     <>
+      <Navbar></Navbar>
       <Center py={12}>
         <Box
           role={'group'}
@@ -112,7 +113,7 @@ const CourseDetails = () => {
             </Stack>
           </Stack>
 
-          <Stack align={'center'} p={5} fontSize={'xl'}>
+          <Stack align={'center'} p={5} fontSize={'18px'}>
             <Text>Classes</Text>
           </Stack>
           <TableContainer>
@@ -145,7 +146,7 @@ const CourseDetails = () => {
               </Tbody>
             </Table>
           </TableContainer>
-          <Stack align={'center'} p={5} fontSize={'xl'}>
+          <Stack align={'center'} p={5} fontSize={'18px'}>
             <Text>Attendance</Text>
           </Stack>
           <TableContainer>

@@ -19,12 +19,12 @@ import PermissionList from './components/PermissionList';
 import ClassDetails from './components/ClassDetails';
 import Monitor from './components/Monitor';
 import MonitorDetails from './components/displayMonitoringDetails';
-import Navbar from './components/navbar';
+// import Navbar from './components/navbar';
 function App() {
   return (
     <div>
       <BrowserRouter>
-        <Navbar></Navbar>
+        {/* <Navbar></Navbar> */}
         <Routes>
           <Route path="/" element={<LoginPage />}></Route>
           <Route path="/createCourse" element={<CreateCourse />}></Route>

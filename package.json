@@ -10,6 +10,7 @@
     "setup": "npm run frontend-install && npm run server-install",
     "frontend-build": "cd frontend && npm run build",
     "run-frontend": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
     "run-server": "nodemon index.js",
     "dev": "concurrently \"npm run run-frontend\" \"npm run run-server\"",
     "start":"node index.js",

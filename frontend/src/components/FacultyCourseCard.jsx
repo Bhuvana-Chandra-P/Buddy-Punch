@@ -50,7 +50,7 @@ const CourseCard = ({ course }) => {
             </Stack>
 
             <Stack direction={'row'} align={'center'}>
-              <Link to={`/addStudent/${_id}`}>Add Student</Link>
+              <Link to={`/addStudent/${_id}`} >Add Student</Link>
               <Link to={`/createClass/${_id}`}>Add Class</Link>
               <Link to={`/faculty/permissionList/${_id}`}>Permissions</Link>
             </Stack>

@@ -15,13 +15,6 @@ getCourseDetailsById.get("/:courseId", async (req, res) => {
         message: "Invalid ID",
       });
     }
-    let faculty = await Faculty.findById(id)
-    if(!faculty)
-    {
-      return res.status(403).json({
-        message: "Invalid token or token expired",
-      });
-    }
     let course = await Course.findById(courseId)
       .populate({ path: "classes" })
       .populate({ path: "students" })

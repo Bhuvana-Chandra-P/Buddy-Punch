@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Webcam from 'react-webcam';
-
+import Navbar from '../components/navbar';
 import {
   Button,
   Flex,
@@ -97,75 +97,77 @@ export default function StudentRegister() {
     }
   };
   return (
-    <Flex
-      minH={'100vh'}
-      align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}
-    >
-      <Stack
-        spacing={4}
-        w={'full'}
-        maxW={'md'}
-        bg={useColorModeValue('white', 'gray.700')}
-        rounded={'xl'}
-        boxShadow={'lg'}
-        p={6}
-        my={12}
+    <>
+      <Navbar></Navbar>
+      <Flex
+        minH={'100vh'}
+        align={'center'}
+        justify={'center'}
+        bg={useColorModeValue('gray.50', 'gray.800')}
       >
-        <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          Student SignUp
-        </Heading>
-        <FormControl id="userName">
-          <Center>{/* <FormLabel>Image</FormLabel> */}</Center>
-          <Center>
-            <div className="webcam-img">
-              {image === '' ? (
-                <Webcam
-                  audio={false}
-                  height={200}
-                  ref={webcamRef}
-                  screenshotFormat="image/jpeg"
-                  width={220}
-                  videoConstraints={videoConstraints}
-                />
-              ) : (
-                <img src={image} alt="user-img" />
-              )}
-            </div>
-          </Center>
-        </FormControl>
-        <FormControl id="userName" isRequired>
-          <FormLabel>User name</FormLabel>
-          <Input
-            placeholder="UserName"
-            _placeholder={{ color: 'gray.500' }}
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
-          />
-        </FormControl>
-        <FormControl id="rollNo" isRequired>
-          <FormLabel>Roll Number</FormLabel>
-          <Input
-            placeholder="Roll Number"
-            _placeholder={{ color: 'gray.500' }}
-            type="number"
-            value={rollNo}
-            onChange={e => setRollNo(e.target.value)}
-          />
-        </FormControl>
-        <FormControl id="email" isRequired>
-          <FormLabel>Email address</FormLabel>
-          <Input
-            placeholder="your-email@example.com"
-            _placeholder={{ color: 'gray.500' }}
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
-        </FormControl>
-        {/* <FormControl id="password" isRequired>
+        <Stack
+          spacing={4}
+          w={'full'}
+          maxW={'md'}
+          bg={useColorModeValue('white', 'gray.700')}
+          rounded={'xl'}
+          boxShadow={'lg'}
+          p={6}
+          my={12}
+        >
+          <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
+            Student SignUp
+          </Heading>
+          <FormControl id="userName">
+            <Center>{/* <FormLabel>Image</FormLabel> */}</Center>
+            <Center>
+              <div className="webcam-img">
+                {image === '' ? (
+                  <Webcam
+                    audio={false}
+                    height={200}
+                    ref={webcamRef}
+                    screenshotFormat="image/jpeg"
+                    width={220}
+                    videoConstraints={videoConstraints}
+                  />
+                ) : (
+                  <img src={image} alt="user-img" />
+                )}
+              </div>
+            </Center>
+          </FormControl>
+          <FormControl id="userName" isRequired>
+            <FormLabel>User name</FormLabel>
+            <Input
+              placeholder="UserName"
+              _placeholder={{ color: 'gray.500' }}
+              type="text"
+              value={name}
+              onChange={e => setName(e.target.value)}
+            />
+          </FormControl>
+          <FormControl id="rollNo" isRequired>
+            <FormLabel>Roll Number</FormLabel>
+            <Input
+              placeholder="Roll Number"
+              _placeholder={{ color: 'gray.500' }}
+              type="number"
+              value={rollNo}
+              onChange={e => setRollNo(e.target.value)}
+            />
+          </FormControl>
+          <FormControl id="email" isRequired>
+            <FormLabel>Email address</FormLabel>
+            <Input
+              placeholder="your-email@example.com"
+              _placeholder={{ color: 'gray.500' }}
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+          </FormControl>
+          {/* <FormControl id="password" isRequired>
           <FormLabel>Password</FormLabel>
           <Input
             placeholder="password"
@@ -175,41 +177,42 @@ export default function StudentRegister() {
             onChange={e => setPassword(e.target.value)}
           />
         </FormControl> */}
-        <FormControl id="password" isRequired>
-          <FormLabel>Password</FormLabel>
-          <InputGroup>
-            <Input
-              type={showPassword ? 'text' : 'password'}
-              placeholder="password"
-              _placeholder={{ color: 'gray.500' }}
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-            <InputRightElement h={'full'}>
-              <Button
-                variant={'ghost'}
-                onClick={() => setShowPassword(showPassword => !showPassword)}
-              >
-                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-        </FormControl>
-        <Stack spacing={6} direction={['column', 'row']}>
-          <Button
-            bg={'blue.400'}
-            color={'white'}
-            w="full"
-            _hover={{
-              bg: 'blue.500',
-            }}
-            isLoading={isLoading}
-            onClick={() => registerHandler()}
-          >
-            Submit
-          </Button>
+          <FormControl id="password" isRequired>
+            <FormLabel>Password</FormLabel>
+            <InputGroup>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="password"
+                _placeholder={{ color: 'gray.500' }}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+              <InputRightElement h={'full'}>
+                <Button
+                  variant={'ghost'}
+                  onClick={() => setShowPassword(showPassword => !showPassword)}
+                >
+                  {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          </FormControl>
+          <Stack spacing={6} direction={['column', 'row']}>
+            <Button
+              bg={'blue.400'}
+              color={'white'}
+              w="full"
+              _hover={{
+                bg: 'blue.500',
+              }}
+              isLoading={isLoading}
+              onClick={() => registerHandler()}
+            >
+              Submit
+            </Button>
+          </Stack>
         </Stack>
-      </Stack>
-    </Flex>
+      </Flex>
+    </>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Card from '../components/StudentCourseCard';
 //import { useNavigate } from 'react-router-dom';
 import { ApiService } from '../api.services';
+import Navbar from '../components/navbar';
 import {
   Flex,
   useColorModeValue,
@@ -47,6 +48,7 @@ function StudentDashboard() {
 
   return (
     <>
+      <Navbar></Navbar>
       <Flex
         //minH={'100vh'}
         // align={'center'}

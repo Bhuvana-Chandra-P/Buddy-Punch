@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ApiService } from '../api.services';
-
+import Navbar from '../components/navbar';
 export default function AddClass() {
   const [date, setDate] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -46,8 +46,8 @@ export default function AddClass() {
         dateAndTime: date,
         courseId: courseId,
       };
-      let token = localStorage.getItem("Token");
-      const res = await ApiService.addClass(data,token);
+      let token = localStorage.getItem('Token');
+      const res = await ApiService.addClass(data, token);
       console.log(res);
       if (res.status === 200) {
         setIsLoading(false);
@@ -71,55 +71,57 @@ export default function AddClass() {
     }
   };
 
- 
   return (
-    <Flex
-      minH={'100vh'}
-      align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}
-    >
-      <Stack
-        spacing={4}
-        w={'full'}
-        maxW={'md'}
-        bg={useColorModeValue('white', 'gray.700')}
-        rounded={'xl'}
-        boxShadow={'lg'}
-        p={6}
-        my={12}
+    <>
+      <Navbar></Navbar>
+      <Flex
+        minH={'100vh'}
+        align={'center'}
+        justify={'center'}
+        bg={useColorModeValue('gray.50', 'gray.800')}
       >
-        <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          Schedule class
-        </Heading>
-
-        <FormControl id="date" isRequired>
-          <FormLabel>Date & Time</FormLabel>
-          <Input
-            placeholder=""
-            _placeholder={{ color: 'gray.500' }}
-            type="datetime-local"
-            value={date}
-            onChange={e => setDate(e.target.value)}
-            min={moment().format('YYYY-MM-DD HH:mm')}
-          />
-        </FormControl>
-
-        <Stack spacing={6} direction={['column', 'row']}>
-          <Button
-            bg={'blue.400'}
-            color={'white'}
-            w="full"
-            _hover={{
-              bg: 'blue.500',
-            }}
-            isLoading={isLoading}
-            onClick={() => addClassHandler()}
-          >
+        <Stack
+          spacing={4}
+          w={'full'}
+          maxW={'md'}
+          bg={useColorModeValue('white', 'gray.700')}
+          rounded={'xl'}
+          boxShadow={'lg'}
+          p={6}
+          my={12}
+        >
+          <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
             Schedule class
-          </Button>
+          </Heading>
+
+          <FormControl id="date" isRequired>
+            <FormLabel>Date & Time</FormLabel>
+            <Input
+              placeholder=""
+              _placeholder={{ color: 'gray.500' }}
+              type="datetime-local"
+              value={date}
+              onChange={e => setDate(e.target.value)}
+              min={moment().format('YYYY-MM-DD HH:mm')}
+            />
+          </FormControl>
+
+          <Stack spacing={6} direction={['column', 'row']}>
+            <Button
+              bg={'blue.400'}
+              color={'white'}
+              w="full"
+              _hover={{
+                bg: 'blue.500',
+              }}
+              isLoading={isLoading}
+              onClick={() => addClassHandler()}
+            >
+              Schedule class
+            </Button>
+          </Stack>
         </Stack>
-      </Stack>
-    </Flex>
+      </Flex>
+    </>
   );
 }
