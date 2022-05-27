@@ -38,7 +38,7 @@ function LoginPage() {
       console.log(res);
       if (res.status === 200) {
         setIsLoading(false);
-        navigate(`/takeAttendance/${classId}`);
+        navigate(`/takeAttendance/${courseId}/${classId}`);
         return;
       }
     } catch (err) {
@@ -127,7 +127,6 @@ function LoginPage() {
               onClick={e => {
                 backHandler();
               }}
-              isLoading={isLoading}
             >
               Back to class Details
             </Button>

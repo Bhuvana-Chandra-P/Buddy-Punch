@@ -56,7 +56,7 @@ function StudentDashboard() {
         bg={useColorModeValue('gray.50', 'gray.800')}
       >
         {courses.length > 0 && (
-          <SimpleGrid columns={[1, 2, 3, 4]}>
+          <SimpleGrid columns={[1, 2, 3]}>
             {courses.map(course => (
               <>
                 <Card course={course}></Card>
