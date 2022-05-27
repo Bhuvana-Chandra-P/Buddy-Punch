@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
-import { useParams } from 'react-router-dom';
+import { useParams ,useNavigate} from 'react-router-dom';
 import { ApiService } from '../api.services';
 import {
   Flex,
@@ -11,6 +11,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import Navbar from '../components/navbar';
+import {ArrowBackIcon} from '@chakra-ui/icons';
 const videoConstraints = {
   width: 420,
   height: 400,
@@ -20,10 +21,10 @@ const videoConstraints = {
 function Monitor() {
   const [image] = useState('');
   //const [isLoading, setIsLoading] = useState(false);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const toast = useToast();
   const webcamRef = React.useRef(null);
-  const { classId } = useParams();
+  const { courseId,classId } = useParams();
 
   let imageSrc;
 
@@ -52,6 +53,9 @@ function Monitor() {
       }
     }
   };
+  const backHandler = async () => {
+    navigate(`/classDetails/${courseId}/${classId}`)
+  }
 
   const MINUTE_MS = 20000;
 
@@ -67,6 +71,7 @@ function Monitor() {
   return (
     <>
       <Navbar></Navbar>
+      <ArrowBackIcon onClick={backHandler} w='20px' h ='20px'></ArrowBackIcon>
       <Flex
         align={'center'}
         justify={'center'}

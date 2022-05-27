@@ -6,6 +6,7 @@ var cors = require("cors");
 const bodyParser = require("body-parser");
 require("./database/setup");
 const dotenv = require("dotenv");
+const path = require('path');
 
 dotenv.config();
 app.use(bodyParser.json());

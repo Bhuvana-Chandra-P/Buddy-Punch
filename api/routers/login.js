@@ -10,23 +10,38 @@ loginRouter.post("/", async (req, res) => {
   try {
     const data = JSON.parse(req.body.image);
     var base64Data = data.replace(/^data:image\/jpeg;base64,/, "");
+    // fs.writeFile(
+    //   "./public/uploads/output.png",
+    //   base64Data,
+    //   "base64",
+    //   function (err) {
+    //     if (err) console.log(err);
+    //   }
+    // );
 
-    fs.writeFile(
-      "./public/uploads/output.png",
-      base64Data,
-      "base64",
-      function (err) {
-        if (err) console.log(err);
-      }
-    );
-
+    const writeFile = async () => {
+      return await new Promise((resolve) => {
+        fs.writeFile(
+          "./public/uploads/output.png",
+          base64Data,
+          "base64",
+          function (err) {
+              if (err) console.log(err);
+            }
+        );
+        resolve("true");
+      });
+    };
+    await writeFile();
+    console.log("fini");
     let result = await cloudinaryUpload("./public/uploads/output.png");
 
     let personFound = await IdentifyFace(result.url);
-    //console.log("person found",personFound);
+    console.log("person found",personFound);
     if (personFound) {
       let student = await Student.findById(personFound.name);
       let faculty = await Faculty.findById(personFound.name);
+      personFound = undefined;
       if (student) {
         const token = jwt.sign(
           {

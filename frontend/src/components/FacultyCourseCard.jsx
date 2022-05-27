@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Text,
@@ -8,6 +8,7 @@ import {
   Center,
   Heading,
   Box,
+  Button,
 } from '@chakra-ui/react';
 
 const CourseCard = ({ course }) => {
@@ -20,13 +21,24 @@ const CourseCard = ({ course }) => {
   const detailsHandler = async () => {
     navigate(`/faculty/courseDetails/${_id}`);
   };
+
+  const addStudentHandler = async () => {
+    navigate(`/addStudent/${_id}`);
+  };
+  const addClassHandler = async () => {
+    navigate(`/createClass/${_id}`);
+  };
+  const permissionsHandler = async () => {
+    navigate(`/faculty/permissionList/${_id}`);
+  };
   return (
     <>
       <Center p = {4} >
         <Box
           role={'group'}
           p={6}
-          maxW={'330px'}
+          maxW={'630px'}
+          minW={'320px'}
           w={'full'}
           bg={useColorModeValue('white', 'gray.800')}
           boxShadow={'2xl'}
@@ -50,9 +62,14 @@ const CourseCard = ({ course }) => {
             </Stack>
 
             <Stack direction={'row'} align={'center'}>
-              <Link to={`/addStudent/${_id}`} >Add Student</Link>
+              <Button onClick={addStudentHandler} fontSize={'12px'}>
+              Add Student
+              </Button>
+              <Button onClick={addClassHandler} fontSize={'12px'}>Add Class</Button>
+              <Button onClick={permissionsHandler} fontSize={'12px'}>Permissions</Button>
+              {/* <Link to={`/addStudent/${_id}`} >Add Student</Link>
               <Link to={`/createClass/${_id}`}>Add Class</Link>
-              <Link to={`/faculty/permissionList/${_id}`}>Permissions</Link>
+              <Link to={`/faculty/permissionList/${_id}`}>Permissions</Link> */}
             </Stack>
           </Stack>
         </Box>

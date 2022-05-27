@@ -58,7 +58,6 @@ MonitorClassRouter.post("/", async (req, res) => {
         
         if(studentBehaviour.neutral)
         {
-          studentBehaviour.smile = (smile+studentBehaviour.smile)/2;
           studentBehaviour.anger = (anger+studentBehaviour.anger)/2;
           studentBehaviour.contempt = (contempt= studentBehaviour.contempt)/2;
           studentBehaviour.disgust = (disgust+studentBehaviour.disgust)/2;
@@ -78,6 +77,10 @@ MonitorClassRouter.post("/", async (req, res) => {
           studentBehaviour.neutral = neutral;
           studentBehaviour.sadness = sadness;
           studentBehaviour.surprise = surprise;
+        }
+        if(Math.abs(smile) > 0.4)
+        {
+          studentBehaviour.eyeOccluded = studentBehaviour.smile+1;
         }
         if(Math.abs(pitch) > 5)
         {

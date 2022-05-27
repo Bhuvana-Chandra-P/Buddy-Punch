@@ -19,12 +19,10 @@ import PermissionList from './components/PermissionList';
 import ClassDetails from './components/ClassDetails';
 import Monitor from './components/Monitor';
 import MonitorDetails from './components/displayMonitoringDetails';
-// import Navbar from './components/navbar';
 function App() {
   return (
     <div>
       <BrowserRouter>
-        {/* <Navbar></Navbar> */}
         <Routes>
           <Route path="/" element={<LoginPage />}></Route>
           <Route path="/createCourse" element={<CreateCourse />}></Route>
@@ -44,7 +42,7 @@ function App() {
           <Route path="/leave/:courseId" element={<Leave />}></Route>
           <Route path="/createClass/:courseId" element={<Class />}></Route>
           <Route
-            path="/takeAttendance/:classId"
+            path="/takeAttendance/:courseId/:classId"
             element={<Attendance />}
           ></Route>
           <Route
@@ -63,9 +61,9 @@ function App() {
             path="/classDetails/:courseId/:classId"
             element={<ClassDetails />}
           ></Route>
-          <Route path="/monitorClass/:classId" element={<Monitor />}></Route>
+          <Route path="/monitorClass/:courseId/:classId" element={<Monitor />}></Route>
           <Route
-            path="/monitorClassDetails/:classId"
+            path="/monitorClassDetails/:courseId/:classId"
             element={<MonitorDetails />}
           ></Route>
         </Routes>

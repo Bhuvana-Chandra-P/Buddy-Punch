@@ -4,6 +4,7 @@ const cloudinaryUpload = require("../../helpers/cloudinary");
 const AddFace = require("../../helpers/faceRecognition");
 const fs = require("fs");
 const bcrypt = require("bcrypt");
+const Student = require("../../database/models/student");
 
 facultyRegisterRouter.post("/", async (req, res) => {
   try {
@@ -16,7 +17,11 @@ facultyRegisterRouter.post("/", async (req, res) => {
     if (await Faculty.findOne({ idNo: idNo }))
       return res.status(404).json({
         message: "Account already exists",
-      });
+    });
+    if (await Student.findOne({ rollNo: idNo }))
+      return res.status(404).json({
+        message: "Account already exists",
+    });
     let faculty = new Faculty();
 
     const data = JSON.parse(req.body.image);
@@ -32,7 +37,7 @@ facultyRegisterRouter.post("/", async (req, res) => {
       }
     );
     let result = await cloudinaryUpload(`./public/uploads/${idNo}.png`);
-    let faceRecognition = await AddFace(idNo, result.url,faculty.id);
+    let faceRecognition = await AddFace(idNo, result.url, faculty.id);
     console.log(faceRecognition);
     if (!faceRecognition) {
       return res.status(404).json({

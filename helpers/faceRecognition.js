@@ -5,21 +5,21 @@ const options = {
     "Ocp-Apim-Subscription-Key": process.env.AZURE_API_KEY,
   },
 };
-let personID;
-let faceID;
-async function AddFace(rollNo, imgUrl,ID) {
+
+async function AddFace(rollNo, imgUrl, ID) {
+  let personID;
+  let faceID;
   let url = process.env.AZURE_URL + "/detect";
   await axios.post(url, { url: imgUrl }, options).then(
     (response) => {
-      //console.log("res", response.data);
+      console.log("res", response.data);
       if (response.data.length) faceID = response.data[0].faceId;
     },
     (error) => {
       console.log(error.message, error.code);
     }
   );
-  if(!faceID)
-    return faceID;
+  if (!faceID) return faceID;
 
   url = process.env.AZURE_URL + "/persongroups/1";
   console.log(url);
@@ -71,7 +71,7 @@ async function AddFace(rollNo, imgUrl,ID) {
   url = process.env.AZURE_URL + "/persongroups/1/train";
   await axios.post(url, {}, options).then(
     (response) => {
-     // console.log("res", response.data);
+      // console.log("res", response.data);
       return response.data; //personID = response.data.personId;
     },
     (error) => {

@@ -28,6 +28,21 @@ export default function Leave() {
   const registerHandler = async () => {
     setIsLoading(true);
     try {
+      let sD = new Date(startDate);
+      let eD = new Date(endDate);
+      if(eD < sD)
+      {
+        setIsLoading(false);
+        toast({
+          title: "Error",
+          description: "End date must not be grater than start date",
+          status: 'warning',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
+        return;
+      }
       let data = {
         subject: subject,
         reason: reason,
@@ -48,8 +63,8 @@ export default function Leave() {
         if (err.response.status === 400) {
           setIsLoading(false);
           toast({
-            title: 'User already exists',
-            description: 'User with same roll number already exixts',
+            title: "Error",
+            description: `${err.response.data.message}`,
             status: 'warning',
             position: 'bottom-right',
             isClosable: true,

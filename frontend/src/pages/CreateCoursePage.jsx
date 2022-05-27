@@ -39,6 +39,7 @@ export default function CreateCourse() {
     } catch (err) {
       console.log(err.response);
       if (err.response) {
+        setIsLoading(false);
         toast({
           title: 'Error',
           description: `${err.response.data.message}`,

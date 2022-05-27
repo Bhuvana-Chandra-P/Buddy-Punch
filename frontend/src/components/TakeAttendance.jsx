@@ -24,7 +24,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const toast = useToast();
   const webcamRef = React.useRef(null);
-  const { classId } = useParams();
+  const { classId,courseId } = useParams();
   let imageSrc;
   const loginHandler = async () => {
     setIsLoading(true);
@@ -56,6 +56,10 @@ function LoginPage() {
       }
     }
   };
+
+  const backHandler = async () => {
+    navigate(`/classDetails/${courseId}/${classId}`)
+  }
 
   return (
     <>
@@ -113,6 +117,20 @@ function LoginPage() {
               Mark Present
             </Button>
           </Stack>
+          <Button
+              bg={'blue.400'}
+              color={'white'}
+              w="full"
+              _hover={{
+                bg: 'blue.500',
+              }}
+              onClick={e => {
+                backHandler();
+              }}
+              isLoading={isLoading}
+            >
+              Back to class Details
+            </Button>
         </Stack>
       </Flex>
     </>

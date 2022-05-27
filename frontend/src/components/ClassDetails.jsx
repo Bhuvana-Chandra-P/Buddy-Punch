@@ -18,7 +18,7 @@ import {
   Button,
   useToast,
 } from '@chakra-ui/react';
-
+import {ArrowBackIcon} from '@chakra-ui/icons';
 const CourseDetails = () => {
   const [present, setPresent] = useState([]);
   const [absent, setAbsent] = useState([]);
@@ -58,16 +58,20 @@ const CourseDetails = () => {
   };
  
   const takeAttendanceHandler = () => {
-    navigate(`/takeAttendance/${classId}`);
+    navigate(`/takeAttendance/${courseId}/${classId}`);
   };
 
   const monitorClassDetailsHandler = () => {
-    navigate(`/monitorClassDetails/${classId}`);
+    navigate(`/monitorClassDetails/${courseId}/${classId}`);
   };
 
   const monitorHandler = () => {
-    navigate(`/monitorClass/${classId}`);
+    navigate(`/monitorClass/${courseId}/${classId}`);
   };
+
+  const backHandler = async () => {
+    navigate(`/faculty/courseDetails/${courseId}`)
+  }
 
   useEffect(() => {
     fetchClass();
@@ -89,8 +93,9 @@ const CourseDetails = () => {
           pos={'relative'}
           zIndex={1}
         >
+          <ArrowBackIcon onClick={backHandler} w='20px' h ='20px'></ArrowBackIcon>
           <Stack align={'center'} p={5} fontSize={'xl'}>
-            <Text>Prsent</Text>
+            <Text>Present</Text>
           </Stack>
           <TableContainer>
             <Table size="sm">

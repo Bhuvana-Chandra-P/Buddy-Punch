@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import { ApiService } from '../api.services';
 import Navbar from '../components/navbar';
 import {
@@ -11,11 +11,12 @@ import {
   Box,
   useToast,
 } from '@chakra-ui/react';
-
+import {ArrowBackIcon} from '@chakra-ui/icons';
 const MonitorDetails = () => {
   const [monitor, setMonitor] = useState([]);
-  const { classId } = useParams();
+  const { courseId,classId } = useParams();
   const toast = useToast();
+  const navigate = useNavigate();
   const fetchMonitorDetails = async () => {
     try {
       let res = await ApiService.displayMonitorDetails(classId);
@@ -38,6 +39,9 @@ const MonitorDetails = () => {
       }
     }
   };
+  const backHandler = async () => {
+    navigate(`/classDetails/${courseId}/${classId}`)
+  }
 
   useEffect(() => {
     fetchMonitorDetails();
@@ -59,7 +63,8 @@ const MonitorDetails = () => {
           pos={'relative'}
           zIndex={1}
         >
-          <Stack pt={10} align={'center'}>
+          <ArrowBackIcon onClick={backHandler} w='20px' h ='20px'></ArrowBackIcon>
+          <Stack  align={'center'}>
             <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
               <Text>Details </Text>
             </Heading>
@@ -91,7 +96,7 @@ const MonitorDetails = () => {
                         <Text>Noise : {student.noise}</Text>
                       </Stack>
                       <Stack>
-                        <Text>smile : {student.smile}</Text>
+                        <Text>No of smiles : {student.smile}</Text>
                       </Stack>
                       <Stack>
                         <Text>Happiness : {student.happiness}</Text>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 import {
   Text,
@@ -8,6 +8,7 @@ import {
   Center,
   Heading,
   Box,
+  Button,
 } from '@chakra-ui/react';
 
 const CourseCard = ({ course }) => {
@@ -20,9 +21,12 @@ const CourseCard = ({ course }) => {
   const detailsHandler = async () => {
     navigate(`/student/courseDetails/${_id}`);
   };
+  const requestPermissionHandler = async () => {
+    navigate(`/leave/${_id}`);
+  };
   return (
     <>
-      <Center p={4} >
+      <Center p={4}>
         <Box
           role={'group'}
           p={6}
@@ -50,7 +54,11 @@ const CourseCard = ({ course }) => {
             </Stack>
 
             <Stack direction={'row'} align={'center'}>
-              <Link to={`/leave/${_id}`}>Leave</Link>
+              <Button onClick={requestPermissionHandler}>
+              Request Permission
+                {/* <Text>Request Permission</Text> */}
+                {/* <Link to={`/leave/${_id}`}>Leave</Link> */}
+              </Button>
             </Stack>
           </Stack>
         </Box>

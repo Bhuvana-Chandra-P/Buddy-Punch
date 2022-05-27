@@ -167,6 +167,11 @@ const CourseDetails = () => {
                 )}
               </Tbody>
             </Table>
+            {permissions.length === 0 && (
+              <Center>
+                <Text>No Permissions submitted</Text>
+              </Center>
+            )}
           </TableContainer>
         </Box>
       </Center>

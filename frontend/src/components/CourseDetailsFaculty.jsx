@@ -16,7 +16,7 @@ import {
   Th,
   Td,
   TableContainer,
-  useToast
+  useToast,
 } from '@chakra-ui/react';
 
 const CourseDetails = () => {
@@ -35,8 +35,7 @@ const CourseDetails = () => {
   //console.log(courseId);
   let ctr = 1;
   const fetchCourse = async () => {
-
-    try{
+    try {
       let token = localStorage.getItem('Token');
       let res = await ApiService.getCourseDetails(courseId, token);
       let res1 = await ApiService.courseAttendance(courseId);
@@ -52,21 +51,20 @@ const CourseDetails = () => {
       setClasses(res.data.course.classes);
       setdateAndTime(res.data.dateAndTime);
       setAttendance(res1.data.result);
-  
+
       return;
-    }catch(err){
+    } catch (err) {
       console.log(err.response);
       if (err.response) {
-          toast({
-            title: 'Error',
-            description: `${err.response.data.message}`,
-            status: 'warning',
-            position: 'bottom-right',
-            isClosable: true,
-            duration: '5000',
-          });
-          return;
-        
+        toast({
+          title: 'Error',
+          description: `${err.response.data.message}`,
+          status: 'warning',
+          position: 'bottom-right',
+          isClosable: true,
+          duration: '5000',
+        });
+        return;
       }
     }
   };
@@ -77,7 +75,7 @@ const CourseDetails = () => {
 
   useEffect(() => {
     fetchCourse();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -114,7 +112,7 @@ const CourseDetails = () => {
           </Stack>
 
           <Stack align={'center'} p={5} fontSize={'18px'}>
-            <Text>Classes</Text>
+            <Text>Classes (click on classes to view more details)</Text>
           </Stack>
           <TableContainer>
             <Table size="sm">
@@ -145,9 +143,14 @@ const CourseDetails = () => {
                 )}
               </Tbody>
             </Table>
+            {dateAndTime.length === 0 && (
+              <Center>
+                <Text>No Class Found</Text>
+              </Center>
+            )}
           </TableContainer>
           <Stack align={'center'} p={5} fontSize={'18px'}>
-            <Text>Attendance</Text>
+            <Text>Students</Text>
           </Stack>
           <TableContainer>
             <Table size="sm">
@@ -174,6 +177,11 @@ const CourseDetails = () => {
                 )}
               </Tbody>
             </Table>
+            {attendance.length === 0 && (
+              <Center>
+                <Text>No Student Found</Text>
+              </Center>
+            )}
           </TableContainer>
         </Box>
       </Center>

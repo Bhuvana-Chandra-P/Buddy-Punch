@@ -40,13 +40,22 @@ displayMonitoringDetails.get("/:classId", async (req, res) => {
       {
         comment += 'The student seem so tensed. '
       }
-      if(student.smile > 0.7)
+      if(student.happiness > 0.7)
+      {
+        comment += 'The student seems to be happy. '
+      }
+      if(student.neutral > 0.7)
+      {
+        comment += 'The student looks clam. '
+      }
+      if(student.smile > 4)
       {
         comment += 'The student smiled some time. May be you cracked a joke! '
       }
       student.overall = comment;
       await student.save();
       result.push(student);
+      comment='';
     }
     //console.log("moni",monitor);
 

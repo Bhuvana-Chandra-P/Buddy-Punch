@@ -42,7 +42,7 @@ getCourseDetailsById.get("/:courseId", async (req, res) => {
     let student = await Student.findById(id);
     if(student)
     {
-      let permissions = await Permission.find();
+      let permissions = await Permission.find({course:courseId});
       let per = [];
       for(let i=0;i<permissions.length;i++)
       {
