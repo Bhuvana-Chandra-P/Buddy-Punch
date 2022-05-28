@@ -11,7 +11,7 @@ A attendance tracking web application.
 ## Useful Links
 
 - [Deployed Website]()
-- [Demo Video](https://youtu.be/9u0goJO6SLk)
+- [Demo Video](https://youtu.be/JJQ4Guq5cno)
 
 ## Features
 
@@ -77,21 +77,23 @@ JWT token is stored to keep track of the user logged in
 
 16.Light and dark mode
 
+I also implemented Continuous Integration with GitHub workflow ( CI )
+
 ## Points to remember while testing the app
 
 - Allow **permissions** for camera
 
-## Instructions
+## Setup
 
-1. `git clone <gitHub repository url>`
-
-2. Install dependencies
+1. `git clone <gitHub repository url>` 
+2. `cd Buddy-Punch`
+3. Install dependencies
 
    `npm run server-install`
 
    `npm run frontend-install`
 
-3. Create a `.env` file
+4. Create a `.env` file
 
    - `cp .env.example .env`
    - Add relevant credentials
@@ -105,7 +107,7 @@ JWT token is stored to keep track of the user logged in
      AZURE_API_KEY=     
  
 
-4. Start the application by
+5. Start the application by
    `npm run dev`
 
-5. The app is now running at http://localhost:3000/
+6. The app is now running at http://localhost:3000/

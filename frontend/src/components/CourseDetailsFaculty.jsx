@@ -21,8 +21,8 @@ import {
 } from '@chakra-ui/react';
 import details from '../assests/classDetails.svg';
 const CourseDetails = () => {
-  const [name, setName] = useState();
-  const [code, setCode] = useState();
+  const [name, setName] = useState('');
+  const [code, setCode] = useState('');
   const [facultyName, setFacultyName] = useState();
   const [noOfStudents, setNoOfStudents] = useState();
   const [noOfClasses, setNoOfClasses] = useState();
