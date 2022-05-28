@@ -151,11 +151,11 @@ const CourseDetails = () => {
                     )}
                   </Tbody>
                 </Table>
-                {/* {dateAndTime.length === 0 && (
-              <Center>
-                <Text>No Class Found</Text>
-              </Center>
-            )} */}
+                {dateAndTime.length === 0 && (
+                  <Center>
+                    <Text>No Class Found</Text>
+                  </Center>
+                )}
               </TableContainer>
               <Stack align={'center'} p={5} fontSize={'18px'}>
                 <Text>Students</Text>
@@ -185,11 +185,11 @@ const CourseDetails = () => {
                     )}
                   </Tbody>
                 </Table>
-                {/* {attendance.length === 0 && (
-              <Center>
-                <Text>No Student Found</Text>
-              </Center>
-            )} */}
+                {attendance.length === 0 && (
+                  <Center>
+                    <Text>No Student Found</Text>
+                  </Center>
+                )}
               </TableContainer>
             </>
           )}
