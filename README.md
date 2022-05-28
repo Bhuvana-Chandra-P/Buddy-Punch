@@ -1,12 +1,12 @@
-
 # [Buddy Punch]()
+
 ## Submission for Microsoft Engage 2022
+
 A attendance tracking web application.
 
-
 ## Tech Stack
-![image](https://res.cloudinary.com/microsoft-engage-2022/image/upload/v1653636580/readmeImages/tech_yzk1x0.png)
 
+![image](https://res.cloudinary.com/microsoft-engage-2022/image/upload/v1653636580/readmeImages/tech_yzk1x0.png)
 
 ## Useful Links
 
@@ -15,28 +15,21 @@ A attendance tracking web application.
 
 ## Features
 
-
 1.SignUp - Student/Faculty
-
 
 Picture is captured and stored in the db along with other other details.Used cloudinary to store images and microsoft azure face api for storing a person in person group and traning the model
 
-
 ![image](https://res.cloudinary.com/microsoft-engage-2022/image/upload/v1653659003/readmeImages/Screenshot_2022-05-27_191059_ifqmrj.png)
 
-2.Login using that sign up 
+2.Login using that sign up
 
-JWT token is stored to keep track of the user logged in 
+JWT token is stored to keep track of the user logged in
 
-![image](https://res.cloudinary.com/microsoft-engage-2022/image/upload/v1653659003/readmeImages/Screenshot_2022-05-27_191006_n3spdb.png)   
-
-
-
+![image](https://res.cloudinary.com/microsoft-engage-2022/image/upload/v1653659003/readmeImages/Screenshot_2022-05-27_191006_n3spdb.png)
 
 3.Student dashboard
 
 ![image](https://res.cloudinary.com/microsoft-engage-2022/image/upload/v1653639544/readmeImages/Screenshot_2022-05-26_212327_caflio.png)
-
 
 4.Student course details
 
@@ -46,7 +39,7 @@ JWT token is stored to keep track of the user logged in
 
 ![image](https://res.cloudinary.com/microsoft-engage-2022/image/upload/v1653640322/readmeImages/Screenshot_2022-05-27_135803_wsj2an.png)
 
-7.Login using password 
+7.Login using password
 
 ![image](https://res.cloudinary.com/microsoft-engage-2022/image/upload/v1653639540/readmeImages/Screenshot_2022-05-26_210216_dpsn7l.png)
 
@@ -84,28 +77,35 @@ JWT token is stored to keep track of the user logged in
 
 16.Light and dark mode
 
-
 ## Points to remember while testing the app
 
-- Allow **permissions** for camera 
+- Allow **permissions** for camera
 
 ## Instructions
 
+1. `git clone <gitHub repository url>`
 
-1. `git clone <gitHub repository url>` 
-
-2. Install dependencies 
+2. Install dependencies
 
    `npm run server-install`
 
    `npm run frontend-install`
 
-3. Create a `.env` file 
-   - `cp .env.example .env` 
+3. Create a `.env` file
+
+   - `cp .env.example .env`
    - Add relevant credentials
+   - Contents of the env file  
+     DATABASE_URL=  
+     TOKEN_SECRET=  
+     CLOUDINARY_NAME=  
+     CLOUDINARY_API_KEY=  
+     CLOUDINARY_API_SECRET=  
+     AZURE_URL=  
+     AZURE_API_KEY=     
+ 
 
 4. Start the application by
-`npm run dev`
+   `npm run dev`
 
-5. The app is now running at http://localhost:3000/ 
-
+5. The app is now running at http://localhost:3000/
