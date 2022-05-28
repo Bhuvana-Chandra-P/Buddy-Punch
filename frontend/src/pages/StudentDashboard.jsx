@@ -7,7 +7,6 @@ import {
   Flex,
   useColorModeValue,
   Center,
-  Text,
   useToast,
   SimpleGrid,
   Image,
@@ -65,16 +64,12 @@ function StudentDashboard() {
           </SimpleGrid>
         )}
       </Flex>
-      <Center>
-        <Image w="100%" h="400px" src={dash} />
-      </Center>
+
       {courses.length === 0 && (
         <Center>
-          <Text>No Course Found</Text>
+          <Image w="100%" h="400px" src={dash} />
         </Center>
       )}
-
-     
     </>
   );
 }

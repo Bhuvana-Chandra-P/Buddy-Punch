@@ -17,8 +17,9 @@ import {
   Td,
   TableContainer,
   useToast,
+  Image,
 } from '@chakra-ui/react';
-
+import details from '../assests/classDetails.svg';
 const CourseDetails = () => {
   const [name, setName] = useState();
   const [code, setCode] = useState();
@@ -43,7 +44,6 @@ const CourseDetails = () => {
       console.log(res1);
       console.log(res1.data.result);
       setName(res.data.course.name);
-      setCode(res.data.course.code);
       setFacultyName(res.data.course.faculty.name);
       setNoOfStudents(res.data.course.students.length);
       setNoOfClasses(res.data.course.classes.length);
@@ -51,6 +51,7 @@ const CourseDetails = () => {
       setClasses(res.data.course.classes);
       setdateAndTime(res.data.dateAndTime);
       setAttendance(res1.data.result);
+      setCode(res.data.course.code);
 
       return;
     } catch (err) {
@@ -93,96 +94,105 @@ const CourseDetails = () => {
           pos={'relative'}
           zIndex={1}
         >
-          <Stack pt={10} align={'center'}>
-            <Text
-              color={'gray.500'}
-              fontSize={'4xl'}
-              textTransform={'uppercase'}
-            >
-              {name}
-            </Text>
-            <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
-              <Text>Subject Code : {code}</Text>
-            </Heading>
-            <Stack direction={'row'} align={'center'}>
-              <Text>Faculty Name : {facultyName}</Text>
-              <Text>Number of Students : {noOfStudents}</Text>
-              <Text>Number of Classes : {noOfClasses}</Text>
-            </Stack>
-          </Stack>
+          {code === '' && (
+            <Center>
+              <Image w="100%" h="400px" src={details} />
+            </Center>
+          )}
+          {code !== '' && (
+            <>
+              <Stack pt={10} align={'center'}>
+                <Text
+                  color={'gray.500'}
+                  fontSize={'4xl'}
+                  textTransform={'uppercase'}
+                >
+                  {name}
+                </Text>
+                <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
+                  <Text>Subject Code : {code}</Text>
+                </Heading>
+                <Stack direction={'row'} align={'center'}>
+                  <Text>Faculty Name : {facultyName}</Text>
+                  <Text>Number of Students : {noOfStudents}</Text>
+                  <Text>Number of Classes : {noOfClasses}</Text>
+                </Stack>
+              </Stack>
 
-          <Stack align={'center'} p={5} fontSize={'18px'}>
-            <Text>Classes (click on classes to view more details)</Text>
-          </Stack>
-          <TableContainer>
-            <Table size="sm">
-              <Thead>
-                <Tr>
-                  <Th>Class No</Th>
-                  <Th>Date</Th>
-                  <Th isNumeric>Time</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {dateAndTime.length > 0 && (
-                  <>
-                    {dateAndTime.map((dAndT, index) => (
+              <Stack align={'center'} p={5} fontSize={'18px'}>
+                <Text>Classes (click on classes to view more details)</Text>
+              </Stack>
+              <TableContainer>
+                <Table size="sm">
+                  <Thead>
+                    <Tr>
+                      <Th>Class No</Th>
+                      <Th>Date</Th>
+                      <Th isNumeric>Time</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {dateAndTime.length > 0 && (
                       <>
-                        <Tr
-                          onClick={() =>
-                            takeAttendanceHandler(classes[index]._id)
-                          }
-                        >
-                          <Td>{ctr++}</Td>
-                          <Td>{dAndT.date}</Td>
-                          <Td isNumeric>{dAndT.time}</Td>
-                        </Tr>
+                        {dateAndTime.map((dAndT, index) => (
+                          <>
+                            <Tr
+                              onClick={() =>
+                                takeAttendanceHandler(classes[index]._id)
+                              }
+                            >
+                              <Td>{ctr++}</Td>
+                              <Td>{dAndT.date}</Td>
+                              <Td isNumeric>{dAndT.time}</Td>
+                            </Tr>
+                          </>
+                        ))}
                       </>
-                    ))}
-                  </>
-                )}
-              </Tbody>
-            </Table>
-            {/* {dateAndTime.length === 0 && (
+                    )}
+                  </Tbody>
+                </Table>
+                {/* {dateAndTime.length === 0 && (
               <Center>
                 <Text>No Class Found</Text>
               </Center>
             )} */}
-          </TableContainer>
-          <Stack align={'center'} p={5} fontSize={'18px'}>
-            <Text>Students</Text>
-          </Stack>
-          <TableContainer>
-            <Table size="sm">
-              <Thead>
-                <Tr>
-                  <Th>Name</Th>
-                  <Th>Roll No</Th>
-                  <Th isNumeric>No of classes Present</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {attendance.length > 0 && (
-                  <>
-                    {attendance.map(at => (
+              </TableContainer>
+              <Stack align={'center'} p={5} fontSize={'18px'}>
+                <Text>Students</Text>
+              </Stack>
+              <TableContainer>
+                <Table size="sm">
+                  <Thead>
+                    <Tr>
+                      <Th>Name</Th>
+                      <Th>Roll No</Th>
+                      <Th isNumeric>No of classes Present</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {attendance.length > 0 && (
                       <>
-                        <Tr>
-                          <Td>{at.name}</Td>
-                          <Td>{at.rollNo}</Td>
-                          <Td isNumeric>{at.noOfClassesPresent}</Td>
-                        </Tr>
+                        {attendance.map(at => (
+                          <>
+                            <Tr>
+                              <Td>{at.name}</Td>
+                              <Td>{at.rollNo}</Td>
+                              <Td isNumeric>{at.noOfClassesPresent}</Td>
+                            </Tr>
+                          </>
+                        ))}
                       </>
-                    ))}
-                  </>
-                )}
-              </Tbody>
-            </Table>
-            {/* {attendance.length === 0 && (
+                    )}
+                  </Tbody>
+                </Table>
+                {/* {attendance.length === 0 && (
               <Center>
                 <Text>No Student Found</Text>
               </Center>
             )} */}
-          </TableContainer>
+              </TableContainer>
+            </>
+          )}
         </Box>
       </Center>
     </>

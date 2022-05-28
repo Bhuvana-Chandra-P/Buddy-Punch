@@ -13,7 +13,6 @@ import {
   Grid,
   Divider,
   chakra,
-  Text,
   Center,
   useToast,
   SimpleGrid,
@@ -124,13 +123,11 @@ function FacultyDashboard() {
           </SimpleGrid>
         )}
       </Flex>
-      <Center>
-        <Image w="480px" src={dash} />
-      </Center>
+      
       {courses.length === 0 && (
-        <Center>
-          <Text>No Course Found</Text>
-        </Center>
+          <Center>
+            <Image w="100%" h="400px" src={dash} />
+          </Center>
       )}
     </>
   );

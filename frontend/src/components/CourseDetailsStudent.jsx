@@ -17,12 +17,13 @@ import {
   Center,
   Box,
   useToast,
+  Image,
 } from '@chakra-ui/react';
-
+import details from '../assests/classDetails.svg';
 const CourseDetails = () => {
   const toast = useToast();
-  const [name, setName] = useState();
-  const [code, setCode] = useState();
+  const [name, setName] = useState('');
+  const [code, setCode] = useState('');
   const [facultyName, setFacultyName] = useState();
   const [noOfStudents, setNoOfStudents] = useState();
   const [noOfClasses, setNoOfClasses] = useState();
@@ -43,13 +44,13 @@ const CourseDetails = () => {
 
       let result = await ApiService.noOfClassesAttended(data, token);
       setName(res.data.course.name);
-      setCode(res.data.course.code);
       setFacultyName(res.data.course.faculty.name);
       setNoOfStudents(res.data.course.students.length);
       setNoOfClasses(res.data.course.classes.length);
       setStudents(res.data.course.students);
       setNoOfClassesPresent(result.data.noOfClassesPresent);
       setPermissions(res.data.permissions);
+      setCode(res.data.course.code);
       console.log(result);
       return;
     } catch (err) {
@@ -90,89 +91,98 @@ const CourseDetails = () => {
           pos={'relative'}
           zIndex={1}
         >
-          <Stack pt={10} align={'center'}>
-            <Text
-              color={'gray.500'}
-              fontSize={'4xl'}
-              textTransform={'uppercase'}
-            >
-              {name}
-            </Text>
-            <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
-              <Text>Subject Code : {code}</Text>
-            </Heading>
-            <Stack direction={'row'} align={'center'}>
-              <Text>Faculty Name : {facultyName}</Text>
-              <Text>Number of Students : {noOfStudents}</Text>
-              <Text>Number of Classes : {noOfClasses}</Text>
-            </Stack>
-            <Text>Number of Classes Present : {noOfClassesPresent}</Text>
-          </Stack>
+          {code === '' && (
+            <Center>
+              <Image w="100%" h="400px" src={details} />
+            </Center>
+          )}
+          {code !== '' && (
+            <>
+              <Stack pt={10} align={'center'}>
+                <Text
+                  color={'gray.500'}
+                  fontSize={'4xl'}
+                  textTransform={'uppercase'}
+                >
+                  {name}
+                </Text>
+                <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
+                  <Text>Subject Code : {code}</Text>
+                </Heading>
+                <Stack direction={'row'} align={'center'}>
+                  <Text>Faculty Name : {facultyName}</Text>
+                  <Text>Number of Students : {noOfStudents}</Text>
+                  <Text>Number of Classes : {noOfClasses}</Text>
+                </Stack>
+                <Text>Number of Classes Present : {noOfClassesPresent}</Text>
+              </Stack>
 
-          <Stack align={'center'} p={5} fontSize={'xl'}>
-            <Text>Students</Text>
-          </Stack>
-          <TableContainer>
-            <Table size="sm">
-              <Thead>
-                <Tr>
-                  <Th>Name</Th>
+              <Stack align={'center'} p={5} fontSize={'xl'}>
+                <Text>Students</Text>
+              </Stack>
+              <TableContainer>
+                <Table size="sm">
+                  <Thead>
+                    <Tr>
+                      <Th>Name</Th>
 
-                  <Th isNumeric>Roll No</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {students.length > 0 && (
-                  <>
-                    {students.map(student => (
+                      <Th isNumeric>Roll No</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {students.length > 0 && (
                       <>
-                        <Tr>
-                          <Td>{student.name}</Td>
+                        {students.map(student => (
+                          <>
+                            <Tr>
+                              <Td>{student.name}</Td>
 
-                          <Td isNumeric>{student.rollNo}</Td>
-                        </Tr>
+                              <Td isNumeric>{student.rollNo}</Td>
+                            </Tr>
+                          </>
+                        ))}
                       </>
-                    ))}
-                  </>
-                )}
-              </Tbody>
-            </Table>
-          </TableContainer>
+                    )}
+                  </Tbody>
+                </Table>
+              </TableContainer>
 
-          <Stack align={'center'} p={5} fontSize={'xl'}>
-            <Text>Permissions</Text>
-          </Stack>
-          <TableContainer>
-            <Table size="sm">
-              <Thead>
-                <Tr>
-                  <Th>Subject</Th>
+              <Stack align={'center'} p={5} fontSize={'xl'}>
+                <Text>Permissions</Text>
+              </Stack>
+              <TableContainer>
+                <Table size="sm">
+                  <Thead>
+                    <Tr>
+                      <Th>Subject</Th>
 
-                  <Th isNumeric>Status</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {permissions.length > 0 && (
-                  <>
-                    {permissions.map(permission => (
+                      <Th isNumeric>Status</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {permissions.length > 0 && (
                       <>
-                        <Tr>
-                          <Td>{permission.subject}</Td>
+                        {permissions.map(permission => (
+                          <>
+                            <Tr>
+                              <Td>{permission.subject}</Td>
 
-                          <Td isNumeric>{permission.status}</Td>
-                        </Tr>
+                              <Td isNumeric>{permission.status}</Td>
+                            </Tr>
+                          </>
+                        ))}
                       </>
-                    ))}
-                  </>
-                )}
-              </Tbody>
-            </Table>
-            {/* {permissions.length === 0 && (
-              <Center>
-                <Text>No Permissions submitted</Text>
-              </Center>
-            )} */}
-          </TableContainer>
+                    )}
+                  </Tbody>
+                </Table>
+                {/* {permissions.length === 0 && (
+                  <Center>
+                    <Text>No Permissions submitted</Text>
+                  </Center>
+                )} */}
+              </TableContainer>
+            </>
+          )}
         </Box>
       </Center>
     </>
