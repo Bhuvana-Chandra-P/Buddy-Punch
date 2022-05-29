@@ -78,9 +78,9 @@ MonitorClassRouter.post("/", async (req, res) => {
           studentBehaviour.sadness = sadness;
           studentBehaviour.surprise = surprise;
         }
-        if(Math.abs(smile) > 0.4)
+        if(Math.abs(smile) > 0.3)
         {
-          studentBehaviour.eyeOccluded = studentBehaviour.smile+1;
+          studentBehaviour.smile= studentBehaviour.smile+1;
         }
         if(Math.abs(pitch) > 5)
         {
